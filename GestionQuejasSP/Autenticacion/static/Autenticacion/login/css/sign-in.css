@@ -2,15 +2,18 @@ html,
 body {
   height: 100%;
 }
-
+{% load static %}
 body {
   display: flex;
   align-items: center;
   padding-top: 40px;
   padding-bottom: 40px;
-  background-color: rgba(191, 205, 236, 0.87);
-  color: #495057;
   background-color: #495057;
+  color: #495057;
+    background-image: url("../img/anja.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+   background-position:center calc(100% + 250px);
 }
 
 .form-signin {
