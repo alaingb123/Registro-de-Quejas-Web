@@ -7,6 +7,6 @@ from .views import logear,cerrar_sesion
 urlpatterns = [
 
 path('',logear,name="autenticacion"),
-path('',cerrar_sesion,name="cerrar_sesion"),
+path('cerrar_sesion',cerrar_sesion,name="cerrar_sesion"),
 
 ]

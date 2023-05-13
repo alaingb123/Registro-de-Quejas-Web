@@ -25,7 +25,7 @@ def logear(request):
             login(request,user)
             return redirect('dash')
         else:
-            error_message='Invalid login credentials'
+            error_message='Credenciales Invalidas'
     else:
         error_message=None
     return render(request,'Autenticacion/login.html',{'error_message':error_message})
