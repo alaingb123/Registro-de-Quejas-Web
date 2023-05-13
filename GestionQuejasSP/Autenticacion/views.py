@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth import login,logout,authenticate
 from django.contrib import messages
 
+
 # Create your views here.
 
 #class VRegistro(View):
@@ -16,21 +17,23 @@ from django.contrib import messages
     #    pass
 
 def logear(request):
-    if(request.method=="POST"):
-        form=AuthenticationForm(request,data=request.POST)
-        if form.is_valid():
-            nombre_usuario=form.cleaned_data.get("username")
-            passw=form.cleaned_data.get("password")
-            usuario=authenticate(username=nombre_usuario,password=passw)
-            if usuario is not None:
-                login(request,usuario)
-                return redirect('dash')
-            else:
-                messages.error(request,"usuario no valido")
+    if(request.method=='POST'):
+        username=request.POST['username']
+        password=request.POST['password']
+        user=authenticate(request,username=username,password=password)
+        if user is not None:
+            login(request,user)
+            return redirect('dash')
         else:
-            messages.error(request,"informacion incorrecta")
-    form=AuthenticationForm()
-    return render(request,"Autenticacion/login.html",{"form":form})
+            error_message='Invalid login credentials'
+    else:
+        error_message=None
+    return render(request,'Autenticacion/login.html',{'error_message':error_message})
+
+
+
+
+
 
 def cerrar_sesion(request):
     logout(request)
