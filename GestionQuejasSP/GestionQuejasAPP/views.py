@@ -8,3 +8,6 @@ from django.contrib.auth.decorators import login_required
 def dash(request):
     return render(request,'dashboard/dash.html')
 
+def insertarQ(request):
+    return render(request,'GestionarQueja/insertarQueja.html')
+
