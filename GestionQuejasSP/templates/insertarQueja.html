@@ -1,0 +1,36 @@
+
+{% if error_message %}
+    <div style="color: black" class="alert alert-danger" role="alert">{{ error_message }}</div>
+    {% endif %}
+
+  <h1>Formulario de quejas</h1>
+  <form method="POST">
+    {% csrf_token %}
+
+    <label for="nombre_apellidos">Nombre:</label>
+    <input type="text" id="nombre_apellidos" name="nombre_apellidos" required><br>
+
+    <label for="entidadAfectada">Correo electrónico:</label>
+    <input type="text" id="entidadAfectada" name="entidadAfectada" required><br>
+
+    <label for="modalidad">Modalidad:</label>
+    <input id="modalidad" name="modalidad" required><br>
+
+    <label for="via">Via:</label>
+    <input id="via" name="via" required><br>
+
+    <label for="procedencia">Modalidad:</label>
+    <input id="procedencia" name="procedencia" required><br>
+
+    <label for="clasificacion">Modalidad:</label>
+    <input id="clasificacion" name="clasificacion" required><br>
+
+    <label for="casoPrensa">Modalidad:</label>
+    <input id="casoPrensa" name="casoPrensa" required><br>
+
+    <label for="fechaR">Modalidad:</label>
+    <input id="fechaR" name="fechaR" required><br>
+
+    <input type="submit" value="Enviar">
+  </form>
+
