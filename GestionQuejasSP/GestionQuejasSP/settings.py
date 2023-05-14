@@ -59,7 +59,7 @@ ROOT_URLCONF = 'GestionQuejasSP.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['C:/Users/Alain/PycharmProjects/GestionQuejasSP/templates'],
+        'DIRS': ['C:/Users/Alain/Documents/GitHub/Registro-de-Quejas-Web/GestionQuejasSP/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
