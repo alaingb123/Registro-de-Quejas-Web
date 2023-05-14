@@ -10,7 +10,7 @@ body {
   padding-bottom: 40px;
   background-color: #495057;
   color: #495057;
-    background-image: url("../img/anja.png");
+    background-image: url("../img/anja2.png");
     background-size: cover;
     background-repeat: no-repeat;
    background-position:center calc(100% + 250px);
@@ -38,15 +38,15 @@ body {
 }
 
 .form-control {
-    color: #ffc107;
+    color: #2c5ff9;
     background-color: #fff;
     border: var(--bs-border-width) solid #6c757d;
 }
 
 .btn-primary {
     --bs-btn-color: #fff;
-    --bs-btn-bg: #ffc107;
-    --bs-btn-border-color: #ffc107;
+    --bs-btn-bg: #2c5ff9;
+    --bs-btn-border-color: #2c5ff9;
     --bs-btn-hover-bg: #9d9fce;
     --bs-btn-hover-border-color: #9d9fce;
 }
@@ -57,11 +57,11 @@ body {
 }
 
 .btn-bd-primary {
-    --bd-violet-bg: #ffc107;
+    --bd-violet-bg: #2c5ff9;
     --bs-btn-bg: var(--bd-violet-bg);
     --bs-btn-border-color: var(--bd-violet-bg);
     --bs-btn-hover-bg: #9d9fce;
-    --bs-btn-hover-border-color: #adb5bd;
+    --bs-btn-hover-border-color: #adb5bd;}
 
 
 
