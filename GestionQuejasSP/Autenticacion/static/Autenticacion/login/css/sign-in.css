@@ -10,7 +10,7 @@ body {
   padding-bottom: 40px;
   background-color: #495057;
   color: #495057;
-    background-image: url("../img/anja2.png");
+    background-image: url("../img/anja3.png");
     background-size: cover;
     background-repeat: no-repeat;
    background-position:center calc(100% + 250px);
@@ -38,17 +38,17 @@ body {
 }
 
 .form-control {
-    color: #2c5ff9;
+    color: #0da5e6;
     background-color: #fff;
     border: var(--bs-border-width) solid #6c757d;
 }
 
 .btn-primary {
-    --bs-btn-color: #fff;
-    --bs-btn-bg: #2c5ff9;
-    --bs-btn-border-color: #2c5ff9;
-    --bs-btn-hover-bg: #9d9fce;
-    --bs-btn-hover-border-color: #9d9fce;
+    --bs-btn-color: rgb(250, 241, 207);
+    --bs-btn-bg: rgba(89, 92, 94, 0.94);
+    --bs-btn-border-color: #0da5e6;
+    --bs-btn-hover-bg: #0da5e6;
+    --bs-btn-hover-border-color: #0da5e6;
 }
 
 .text-body-secondary {
@@ -57,11 +57,11 @@ body {
 }
 
 .btn-bd-primary {
-    --bd-violet-bg: #2c5ff9;
+     --bd-violet-bg: rgba(89, 92, 94, 0.94);
     --bs-btn-bg: var(--bd-violet-bg);
-    --bs-btn-border-color: var(--bd-violet-bg);
-    --bs-btn-hover-bg: #9d9fce;
-    --bs-btn-hover-border-color: #adb5bd;}
+   --bs-btn-border-color: #0da5e6;
+     --bs-btn-hover-bg: #0da5e6;
+    --bs-btn-hover-border-color: #0da5e6;}
 
 
 

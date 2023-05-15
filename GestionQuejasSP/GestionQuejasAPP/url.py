@@ -1,10 +1,9 @@
 from django.urls import path,include
-from .views import dash,InsertarQueja,insertar_respuesta
+from .views import dash,InsertarQueja
 from django.contrib.auth.decorators import login_required
-
+from .views import dash,insertarQ
 
 urlpatterns = [
     path('',login_required(dash),name="dash"),
-    path('insertarQueja/',InsertarQueja,name="insertar_queja"),
-    path('insertarRespuesta/',insertar_respuesta,name="insertar_respuesta"),
+    path('insertar/',insertarQ,name="insertarQ"),
 ]

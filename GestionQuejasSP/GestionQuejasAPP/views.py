@@ -3,10 +3,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixi
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .forms import QuejaForm,RespuestaForm
+from .forms import QuejaForm
 from .models import Queja
-from django.views.decorators.cache import never_cache
-from datetime import datetime
 
 
 # Create your views here.
@@ -29,19 +27,5 @@ def InsertarQueja(request):
         error_message='Datos Invalidos'
     return render(request, 'insertarQueja.html', {'error_message': error_message})
 
-
-def insertar_respuesta(request):
-    if request.method == 'POST':
-        form = RespuestaForm(request.POST)
-        if form.is_valid():
-            respuesta = form.save(commit=False)
-            queja_id = form.cleaned_data['numero'].id
-            respuesta.queja = Queja.objects.get(id=queja_id)
-            respuesta.save()
-            # hacer algo después de guardar la respuesta
-            return redirect('dash')
-        else:
-            print(form.errors)  # mostrar errores de validación del formulario
-    else:
-        form = RespuestaForm()
-    return render(request, 'InsertarRespuesta.html', {'form': form})
+def insertarQ(request):
+    return render(request,'GestionarQueja/insertarQueja.html')
