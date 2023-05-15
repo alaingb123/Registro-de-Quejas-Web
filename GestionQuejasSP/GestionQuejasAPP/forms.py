@@ -22,3 +22,14 @@ class RespuestaForm(forms.ModelForm):
         self.fields['numero'].label = 'Selecciona una queja'
         self.fields['numero'].empty_label = None
 
+
+class FiltroQuejasForm(forms.Form):
+    years = forms.ChoiceField(choices=[], label='Año')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        anos = Queja.objects.dates('fechaR', 'year').distinct()
+        choices = [(ano.year, str(ano.year)) for ano in anos]
+        self.fields['years'].choices = choices
+        print(choices)
+

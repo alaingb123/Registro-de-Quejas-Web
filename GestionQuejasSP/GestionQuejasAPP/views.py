@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixi
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .forms import QuejaForm,RespuestaForm
+from .forms import QuejaForm,RespuestaForm,FiltroQuejasForm
 from .models import Queja
 from django.views.decorators.cache import never_cache
 from datetime import datetime
@@ -67,3 +67,21 @@ def buscarR(request):
 @login_required(login_url='login')
 def acercaDe(request):
     return render(request,'acerca de.html')
+
+
+def vista_filtrar_quejas(request):
+    print(request.GET)
+    form = FiltroQuejasForm(request.GET or None)
+
+    if form.is_valid():
+        year = form.cleaned_data['years']
+        quejas = Queja.objects.filter(fechaR__year=year)
+    else:
+        quejas = Queja.objects.all()
+
+    context = {
+        'form': form,
+        'quejas': quejas,
+    }
+
+    return render(request, 'dashboard/dash.html', context)
