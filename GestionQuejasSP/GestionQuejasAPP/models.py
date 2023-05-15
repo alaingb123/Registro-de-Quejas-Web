@@ -13,6 +13,7 @@ class Queja(models.Model):
     clasificacion=models.CharField(max_length=20)
     casoPrensa=models.CharField(max_length=20)
     fechaR=models.DateTimeField()
+    fechaT=models.DateTimeField()
     created=models.DateTimeField(auto_now_add=True)
     updated=models.DateTimeField(auto_now_add=True)
 
@@ -21,8 +22,8 @@ class Queja(models.Model):
         verbose_name_plural='quejas'
 
     def __str__(self):
-        texto = 'numero: {} Nombre y Apellidos: {} Entidad Afectada: {} Fecha Recibida {}  '
-        return texto.format(self.numero, self.nombre_apellidos, self.entidadAfectada,self.fechaR)
+        texto = 'numero: {}....Nombre y Apellidos: {}.... Fecha Recibido: {}'
+        return texto.format(self.numero, self.nombre_apellidos,self.fechaR.date())
 
     def save( self,*args,**kwargs ):
         if not self.pk:
@@ -36,10 +37,9 @@ class Respuesta(models.Model):
     numero=models.OneToOneField(Queja,on_delete=models.CASCADE)
     responsable=models.CharField(max_length=20)
     descripcion=models.TextField(max_length=300)
-    entrega=models.BooleanField
+    entrega=models.BooleanField(default=False)
     satisfaccion=models.CharField(max_length=20)
     conclusion=models.CharField(max_length=20)
-    fechaT=models.DateTimeField()
     fechaE=models.DateTimeField()
     created=models.DateTimeField(auto_now_add=True)
     updated=models.DateTimeField(auto_now_add=True)
@@ -49,4 +49,5 @@ class Respuesta(models.Model):
         verbose_name_plural='respuestas'
 
     def __str__(self):
-        return self.numero,self.responsable,self.entrega,self.fechaT
+        azucar = 'Queja: {} Responsable: {} Entrega: {} '
+        return azucar.format(self.numero, self.responsable, self.entrega)

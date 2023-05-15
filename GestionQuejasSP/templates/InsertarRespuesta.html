@@ -1,0 +1,72 @@
+<!-- Custom styles for this template
+  <h1>Formulario de Respuestas</h1>
+  <form method="POST">
+    {% csrf_token %}
+{% if error_message %}
+    <div style="color: black" class="alert alert-danger" role="alert">{{ error_message }}</div>
+    {% endif %}
+
+
+
+    <label for="responsable">Responsable:</label>
+    <input type="text" id="responsable" name="responsable" required><br>
+
+    <label for="descripcion">Descripcion:</label>
+    <input type="text" id="descripcion" name="descripcion" required><br>
+
+    <label for="entrega">Entrega:</label>
+    <input type="checkbox" id="entrega" name="entrega" required><br>
+
+    <label for="satisfaccion">Satisfaccion:</label>
+    <input id="satisfaccion" name="satisfaccion" required><br>
+
+    <label for="conclusion">Conclusion:</label>
+    <input id="conclusion" name="conclusion" required><br>
+
+    <label for="fechaT">Fecha Termino:</label>
+    <input id="fechaT" name="fechaT" required><br>
+
+          <label for="fechaE">Fecha que se Entrego:</label>
+    <input id="fechaE" name="fechaE" required><br>
+
+    <input type="submit" value="Enviar">
+  </form> -->
+
+
+<form method="POST" action="{% url 'insertar_respuesta' %}">
+  {% csrf_token %}
+
+  <label for="ano">Año:</label>
+  <select id="ano" name="year">
+    <option value="">--Seleccione un año--</option>
+    <option value="2022">2022</option>
+    <option value="2023">2023</option>
+    <option value="2024">2024</option>
+    <!-- Agrega aquí las opciones para otros años disponibles -->
+  </select>
+
+  {{ form.numero }}<br>
+
+  <label for="responsable">Responsable:</label>
+  <input type="text" id="responsable" name="responsable" required><br>
+
+  <label for="descripcion">Descripcion:</label>
+  <input type="text" id="descripcion" name="descripcion" required><br>
+
+  <label for="entrega">Entrega:</label>
+  <input type="checkbox" id="entrega" name="entrega" required><br>
+
+  <label for="satisfaccion">Satisfaccion:</label>
+  <input id="satisfaccion" name="satisfaccion" required><br>
+
+  <label for="conclusion">Conclusion:</label>
+  <input id="conclusion" name="conclusion" required><br>
+
+  <label for="fechaT">Fecha Termino:</label>
+  <input id="fechaT" name="fechaT" required><br>
+
+  <label for="fechaE">Fecha que se Entrego:</label>
+  <input id="fechaE" name="fechaE" required><br>
+
+  <button type="submit">Enviar respuesta</button>
+</form>

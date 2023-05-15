@@ -1,11 +1,12 @@
 
-{% if error_message %}
-    <div style="color: black" class="alert alert-danger" role="alert">{{ error_message }}</div>
-    {% endif %}
 
   <h1>Formulario de quejas</h1>
   <form method="POST">
     {% csrf_token %}
+
+{% if error_message %}
+    <div style="color: black" class="alert alert-danger" role="alert">{{ error_message }}</div>
+    {% endif %}
 
     <label for="nombre_apellidos">Nombre:</label>
     <input type="text" id="nombre_apellidos" name="nombre_apellidos" required><br>
@@ -19,16 +20,16 @@
     <label for="via">Via:</label>
     <input id="via" name="via" required><br>
 
-    <label for="procedencia">Modalidad:</label>
+    <label for="procedencia">Procedencia:</label>
     <input id="procedencia" name="procedencia" required><br>
 
-    <label for="clasificacion">Modalidad:</label>
+    <label for="clasificacion">Clasificacion:</label>
     <input id="clasificacion" name="clasificacion" required><br>
 
-    <label for="casoPrensa">Modalidad:</label>
+    <label for="casoPrensa">Caso de Prensa:</label>
     <input id="casoPrensa" name="casoPrensa" required><br>
 
-    <label for="fechaR">Modalidad:</label>
+    <label for="fechaR">Fecha Recibida:</label>
     <input id="fechaR" name="fechaR" required><br>
 
     <input type="submit" value="Enviar">
