@@ -168,7 +168,7 @@
       <div class="position-sticky pt-3 sidebar-sticky"  >
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#" >
+            <a class="nav-link {% if request.path == '/dash/' %}active {% endif %}" aria-current="page" href="{% url 'dash' %}" >
               <span data-feather="home" class="align-text-bottom"></span>
                REGISTRO DE QUEJAS
             </a>
@@ -180,25 +180,25 @@
             </a>
           </li>
           <li class="nav-item">
-             <a class="nav-link" href="#"  style="background-color: rgba(238,245,250,0.11)" >
+             <a class="nav-link {% if request.path == '/dash/insertar_queja/' %}active {% endif %}" href="{% url 'insertar_queja' %}"  style="background-color: rgba(238,245,250,0.11)" >
               <span data-feather="shopping-cart" class="align-text-bottom"></span>
               Insertar Queja
             </a>
           </li>
           <li class="nav-item">
-             <a class="nav-link" href="#"  style="background-color: rgba(238,245,250,0.11)" >
+             <a class="nav-link {% if request.path == '/dash/modificarQ/' %} active {% endif %} " href="{% url 'modificarQ' %}"  style="background-color: rgba(238,245,250,0.11)" >
               <span data-feather="users" class="align-text-bottom"></span>
               Editar Queja
             </a>
           </li>
           <li class="nav-item">
-             <a class="nav-link" href="#"  style="background-color: rgba(238,245,250,0.11)" >
+             <a class="nav-link {% if request.path == '/dash/buscarQ/' %}active {% endif %} " href="{% url 'buscarQ' %}"  style="background-color: rgba(238,245,250,0.11)" >
               <span data-feather="bar-chart-2" class="align-text-bottom"></span>
-             Buscar y Visualizar Queja
+             Buscar Queja
             </a>
           </li>
           <li class="nav-item">
-           <a class="nav-link" href="#"  style="background-color: rgba(238,245,250,0.11)" >
+           <a class="nav-link {% if request.path == '/dash/eliminarQ/' %}active {% endif %}" href="{% url 'eliminarQ' %}"  style="background-color: rgba(238,245,250,0.11)" >
               <span data-feather="layers" class="align-text-bottom"></span>
                Eliminar Queja
             </a>
@@ -213,25 +213,25 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <a class="nav-link" href="#" style="background-color: rgba(238,245,250,0.11)">
+            <a class="nav-link {% if request.path == '/dash/insertar_respuesta/' %}active {% endif %} " href="{% url 'insertar_respuesta' %}" style="background-color: rgba(238,245,250,0.11)">
               <span data-feather="file-text" class="align-text-bottom"></span>
              Insertar Respuesta
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" style="background-color: rgba(238,245,250,0.11)">
+            <a class="nav-link {% if request.path == '/dash/modificarR/' %}active {% endif %} " href="{% url 'modificarR' %}" style="background-color: rgba(238,245,250,0.11)">
               <span data-feather="file-text" class="align-text-bottom"></span>
               Editar Respuesta
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" style="background-color: rgba(238,245,250,0.11)">
+            <a class="nav-link {% if request.path == '/dash/buscarR/' %}active {% endif %} " href="{% url 'buscarR' %}" style="background-color: rgba(238,245,250,0.11)">
               <span data-feather="file-text" class="align-text-bottom"></span>
-               Buscar y Visualizar Respuesta
+               Buscar Respuesta
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" style="background-color: rgba(238,245,250,0.11)">
+            <a class="nav-link {% if request.path == '/dash/eliminarR/' %}active {% endif %} " href="{% url 'eliminarR' %}" style="background-color: rgba(238,245,250,0.11)">
               <span data-feather="file-text" class="align-text-bottom"></span>
               Eliminar Respuesta
             </a>
@@ -243,7 +243,7 @@
             </a>
           </li>
              <li class="nav-item">
-            <a class="nav-link" href="#" >
+            <a class="nav-link {% if request.path == '/acercaDe/' %}active {% endif %} " href="{% url 'acercaDe' %}" >
               <span data-feather="file-text" class="align-text-bottom"></span>
               ACERCA DE
             </a>

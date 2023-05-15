@@ -15,7 +15,7 @@ def dash(request):
     return render(request,'dashboard/dash.html')
 
 
-
+@login_required(login_url='login')
 def InsertarQueja(request):
     if request.method == 'POST':
         form = QuejaForm(request.POST)
@@ -29,7 +29,7 @@ def InsertarQueja(request):
         error_message='Datos Invalidos'
     return render(request, 'Gestionar Queja/insertarQ.html', {'error_message': error_message})
 
-
+@login_required(login_url='login')
 def insertar_respuesta(request):
     if request.method == 'POST':
         form = RespuestaForm(request.POST)
@@ -45,3 +45,25 @@ def insertar_respuesta(request):
     else:
         form = RespuestaForm()
     return render(request, 'InsertarRespuesta.html', {'form': form})
+@login_required(login_url='login')
+def modificarQ(request):
+    return render(request,'Gestionar Queja/editarQueja.html')
+@login_required(login_url='login')
+def eliminarQ(request):
+    return render(request,'Gestionar Queja/eliminarQueja.html')
+
+@login_required(login_url='login')
+def buscarQ(request):
+    return render(request,'Gestionar Queja/buscarQueja.html')
+@login_required(login_url='login')
+def modificarR(request):
+    return render(request,'Gestionar Respuesta/modificarRespuesta.html')
+@login_required(login_url='login')
+def eliminarR(request):
+    return render(request,'Gestionar Respuesta/eliminarRespuesta.html')
+@login_required(login_url='login')
+def buscarR(request):
+    return render(request,'Gestionar Respuesta/BuscarRespuesta.html')
+@login_required(login_url='login')
+def acercaDe(request):
+    return render(request,'acerca de.html')
