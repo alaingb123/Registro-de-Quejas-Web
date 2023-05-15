@@ -26,3 +26,6 @@ def InsertarQueja(request):
     else:
         error_message='Datos Invalidos'
     return render(request, 'insertarQueja.html', {'error_message': error_message})
+
+def insertarQ(request):
+    return render(request,'GestionarQueja/insertarQueja.html')
