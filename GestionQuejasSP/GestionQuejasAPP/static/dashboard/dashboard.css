@@ -5,6 +5,7 @@ body {
 .feather {
   width: 16px;
   height: 16px;
+   box-shadow: inset -1px 0 0 rgba(43, 45, 47, 0.87);
 }
 
 /*
@@ -22,7 +23,7 @@ body {
   left: 0;
   z-index: 100; /* Behind the navbar */
   padding: 48px 0 0; /* Height of navbar */
-  box-shadow: inset -1px 0 0 rgb(253, 204, 0);
+  box-shadow: inset -1px 0 0 rgb(13, 165, 230);
 }
 
 @media (max-width: 767.98px) {
@@ -46,11 +47,11 @@ body {
 
 .sidebar .nav-link .feather {
   margin-right: 4px;
-  color: #fdcc00;
+  color: #0da5e6;
 }
 
 .sidebar .nav-link.active {
-  color: #2470dc;
+  color: #0da5e6;
 }
 
 .sidebar .nav-link:hover .feather,
@@ -69,8 +70,8 @@ body {
 .navbar-brand {
   padding-top: .75rem;
   padding-bottom: .75rem;
-  background-color: rgb(253, 204, 0);
-  box-shadow: inset -1px 0 0 rgb(253, 204, 0);
+ background-color: rgb(13, 165, 230);
+  box-shadow: inset -1px 0 0 rgb(13, 165, 230);
 }
 
 .navbar .navbar-toggler {
@@ -83,24 +84,33 @@ body {
 }
 
 .form-control-dark {
-  color: rgba(32, 33, 35, 0.87);
-  background-color: rgb(253, 204, 0);
+   color: rgba(238, 245, 250, 0.87);
+  background-color: rgba(32, 33, 35, 0.87);
   border-color: rgba(32, 33, 35, 0.87);
 }
 
 .form-control-dark:focus {
   border-color: transparent;
-  box-shadow: 0 0 0 3px rgb(253, 204, 0);
+  box-shadow: 0 0 0 3px rgb(13, 165, 230);
 }
 
 .navbar-dark {
     --bs-navbar-color: rgb(250, 241, 207);
-    --bs-navbar-hover-color: rgb(253, 204, 0);
+    --bs-navbar-hover-color: rgb(13, 165, 230);
     --bs-navbar-disabled-color: rgb(250, 241, 207);
-    --bs-navbar-active-color: #fdcc00;
+    --bs-navbar-active-color: rgba(43, 45, 47, 0.87);
     --bs-navbar-brand-color: #fff;
     --bs-navbar-brand-hover-color: #fff;
-    --bs-navbar-toggler-border-color: rgb(253, 204, 0);
+     --bs-navbar-toggler-border-color: rgba(43, 45, 47, 0.87);
 
+
+}
+
+.navbar-nav {
+    --bs-nav-link-padding-x: 0;
+    --bs-nav-link-padding-y: 0.5rem;
+    --bs-nav-link-color: var(--bs-navbar-color);
+    --bs-nav-link-hover-color: var(--bs-navbar-hover-color);
+    --bs-nav-link-disabled-color: var(--bs-navbar-disabled-color);
 
 }
