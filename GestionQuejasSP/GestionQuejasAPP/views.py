@@ -8,6 +8,7 @@ from .models import Queja
 from django.views.decorators.cache import never_cache
 from datetime import datetime
 from django.db.models import Q
+from django.urls import reverse
 
 
 # Create your views here.
@@ -44,7 +45,7 @@ def InsertarQueja(request):
             # Modificar el modelo queja si es necesario
             queja.save()
             # El formulario es válido, guardar los datos en la base de datos
-            return render(request, 'dashboard/dash.html')
+            return redirect(reverse('dash'))
         else:
             error_message = 'Datos inválidos, verifique el formulario'
     else:
