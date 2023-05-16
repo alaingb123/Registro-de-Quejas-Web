@@ -8,8 +8,7 @@ urlpatterns = [
     path('filtrarSR/', vista_filtrar_quejas_sin_respuestas, name='filtrar_quejas_sin_respuestas'),
     #Gestionar Queja
     path('insertar_queja/', InsertarQueja, name="insertar_queja"),
-    path('modificarQ/<int:pk>/', modificarQ, name='modificarQ_with_numero'),
-    path('modificarQ/', modificarQ, name='modificarQ'),
+    path('modificarQ_with_numero/<int:numero>/', modificarQ, name='modificarQ_with_numero'),
     path('eliminar_ultima_queja/', eliminar_ultima_queja, name='eliminar_ultima_queja'),
     path('buscarQ/',buscarQ,name="buscarQ"),
     #Gestionar Respuesta

@@ -70,9 +70,9 @@ def insertar_respuesta(request):
     return render(request, 'InsertarRespuesta.html', {'form': form})
 
 @login_required(login_url='login')
-def modificarQ(request, pk):
+def modificarQ(request, numero):
     # Obtener la queja que se va a editar
-    queja = get_object_or_404(Queja, numero=pk)
+    queja = get_object_or_404(Queja, id=numero)
 
     # Si el formulario se ha enviado
     if request.method == 'POST':

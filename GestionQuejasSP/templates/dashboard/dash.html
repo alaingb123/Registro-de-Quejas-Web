@@ -66,8 +66,8 @@
       {% endif %}
       <td>{{ queja.fechaR|date:"d/m" }}</td>
       <td>
-        {% if queja.numero %}
-        <a href="{% url 'modificarQ_with_numero' pk=queja.pk %}" class="btn btn-primary btn-sm">Editar</a>
+        {% if queja.pk %}
+        <a href="{% url 'modificarQ_with_numero' numero=queja.pk %}" class="btn btn-primary btn-sm">Editar</a>
         {% endif %}
       </td>
     </tr>
