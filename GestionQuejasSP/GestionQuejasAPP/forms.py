@@ -1,4 +1,4 @@
-from django.forms import ModelForm,forms
+from django.forms import ModelForm,forms,DateTimeInput
 from .models import Queja,Respuesta
 from datetime import datetime
 
@@ -6,9 +6,11 @@ from django import forms
 from .models import Queja
 
 class QuejaForm(forms.ModelForm):
+    fechaR = forms.DateTimeField(widget=DateTimeInput(attrs={'type': 'datetime-local'}))
+
     class Meta:
         model = Queja
-        fields = ['nombre_apellidos', 'entidadAfectada', 'modalidad' , 'via', 'procedencia', 'clasificacion', 'casoPrensa', 'fechaR' ,'fechaT']
+        fields = ['nombre_apellidos', 'entidadAfectada', 'modalidad' , 'via', 'procedencia', 'clasificacion', 'casoPrensa', 'fechaR']
 
 
 class RespuestaForm(forms.ModelForm):

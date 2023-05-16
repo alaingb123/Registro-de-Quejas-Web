@@ -49,7 +49,7 @@ def InsertarQueja(request):
             error_message = 'Datos inválidos, verifique el formulario'
     else:
         form = QuejaForm()
-    return render(request, 'insertarQueja.html', {'form': form, 'error_message': error_message})
+    return render(request, 'Gestionar Queja/insertarQ.html', {'form': form, 'error_message': error_message})
 
 @login_required(login_url='login')
 def insertar_respuesta(request):
