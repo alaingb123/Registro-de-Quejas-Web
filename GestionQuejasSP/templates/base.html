@@ -198,10 +198,28 @@
             </a>
           </li>
           <li class="nav-item">
-           <a class="nav-link {% if request.path == '/dash/eliminar_ultima_queja/' %}active {% endif %}" href="{% url 'eliminar_ultima_queja' %}" style="background-color: rgba(238,245,250,0.11)" >
-              <span data-feather="layers" class="align-text-bottom"></span>
-               Eliminar Queja
-            </a>
+          <a class="nav-link {% if request.path == '/dash/eliminar_ultima_queja/' %}active {% endif %}" href="{% url 'eliminar_ultima_queja' %}" style="background-color: rgba(238,245,250,0.11)" id="eliminarQuejaLink">
+  <span data-feather="layers" class="align-text-bottom"></span>
+  Eliminar Queja
+</a>
+
+<script>
+  document.getElementById('eliminarQuejaLink').addEventListener('click', function(event) {
+    event.preventDefault(); // Previene el comportamiento predeterminado del enlace
+    if (confirm('¿Estás seguro que deseas eliminar la última queja?')) {
+      var form = document.createElement('form'); // Crea un formulario para enviar la solicitud POST
+      form.method = 'POST';
+      form.action = '{% url "eliminar_ultima_queja" %}';
+      var csrf = document.createElement('input'); // Agrega un campo CSRF al formulario
+      csrf.type = 'hidden';
+      csrf.name = 'csrfmiddlewaretoken';
+      csrf.value = '{{ csrf_token }}';
+      form.appendChild(csrf);
+      document.body.appendChild(form); // Agrega el formulario al final del cuerpo del documento
+      form.submit(); // Envía la solicitud POST
+    }
+  });
+</script>
           </li>
         </ul>
 
