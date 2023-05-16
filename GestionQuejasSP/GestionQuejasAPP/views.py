@@ -5,11 +5,10 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect,get_object_or_404
 from .forms import QuejaForm,RespuestaForm,FiltroQuejasForm
 from .models import Queja
-from django.views.decorators.cache import never_cache
 from datetime import datetime
 from django.db.models import Q
 from django.urls import reverse
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_http_methods
 
 
 # Create your views here.
@@ -148,8 +147,9 @@ def seleccionar_queja(request):
     # Renderizar la lista de quejas disponibles
     return render(request, 'seleccionarQueja.html', {'quejas': quejas})
 
-@require_POST
-def eliminarQ(request, pk):
-    queja = get_object_or_404(Queja, pk=pk)
-    queja.delete()
+
+@login_required(login_url='login')
+def eliminar_ultima_queja(request):
+    ultima_queja = Queja.objects.last() # Obtiene la última queja
+    ultima_queja.delete() # Elimina la última queja
     return redirect('dash')

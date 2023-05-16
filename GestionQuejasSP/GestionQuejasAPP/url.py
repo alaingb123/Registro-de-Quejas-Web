@@ -1,5 +1,5 @@
 from django.urls import path,include
-from .views import dash,InsertarQueja,insertar_respuesta,modificarQ,eliminarQ,buscarQ,modificarR,eliminarR,buscarR,acercaDe,vista_filtrar_quejas_sin_respuestas
+from .views import dash,InsertarQueja,insertar_respuesta,modificarQ,eliminar_ultima_queja,buscarQ,modificarR,eliminarR,buscarR,acercaDe,vista_filtrar_quejas_sin_respuestas
 from django.contrib.auth.decorators import login_required
 
 
@@ -10,8 +10,7 @@ urlpatterns = [
     path('insertar_queja/', InsertarQueja, name="insertar_queja"),
     path('modificarQ/<int:pk>/', modificarQ, name='modificarQ_with_numero'),
     path('modificarQ/', modificarQ, name='modificarQ'),
-    path('eliminarQ/<int:pk>/',eliminarQ,name="eliminarQ"),
-    path('eliminarQ/',eliminarQ,name="eliminarQ_sin_numero"),
+    path('eliminar_ultima_queja/', eliminar_ultima_queja, name='eliminar_ultima_queja'),
     path('buscarQ/',buscarQ,name="buscarQ"),
     #Gestionar Respuesta
     path('insertar_respuesta/',insertar_respuesta,name="insertar_respuesta"),
