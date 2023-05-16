@@ -1,5 +1,7 @@
 from django.db import models
-
+from datetime import timedelta
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 # Create your models here.
 
 
@@ -13,7 +15,7 @@ class Queja(models.Model):
     clasificacion=models.CharField(max_length=20)
     casoPrensa=models.CharField(max_length=20)
     fechaR=models.DateTimeField()
-    fechaT=models.DateTimeField()
+    fechaT=models.DateTimeField(null=True, blank=True)
     created=models.DateTimeField(auto_now_add=True)
     updated=models.DateTimeField(auto_now_add=True)
 
@@ -36,6 +38,7 @@ class Queja(models.Model):
         super().save(*args, **kwargs)
 
 
+
 class Respuesta(models.Model):
     numero=models.OneToOneField(Queja,on_delete=models.CASCADE)
     responsable=models.CharField(max_length=20)
@@ -54,3 +57,9 @@ class Respuesta(models.Model):
     def __str__(self):
         azucar = 'Queja: {} Responsable: {} Entrega: {} '
         return azucar.format(self.numero, self.responsable, self.entrega)
+
+
+@receiver(pre_save, sender=Queja)
+def actualizar_fecha_termino(sender, instance, **kwargs):
+    if instance.fechaR:
+        instance.fechaT = instance.fechaR + timedelta(days=30)
