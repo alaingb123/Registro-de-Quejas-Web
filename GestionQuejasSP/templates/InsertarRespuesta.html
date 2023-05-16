@@ -31,21 +31,30 @@
 
     <input type="submit" value="Enviar">
   </form> -->
+ <form method="get" action="{% url 'filtrar_quejas_sin_respuestas' %}" href="{% url 'filtrar_quejas' %}">
+    {{ form.as_p }}
+    <button type="submit">Filtrar</button>
+</form>
+        </div>
+      </div>
 
+
+      {% if form.errors %}
+    <ul>
+    {% for field in form %}
+        {% for error in field.errors %}
+        <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+        {% endfor %}
+    {% endfor %}
+    </ul>
+{% endif %}
 
 <form method="POST" action="{% url 'insertar_respuesta' %}">
   {% csrf_token %}
 
-  <label for="ano">Año:</label>
-  <select id="ano" name="year">
-    <option value="">--Seleccione un año--</option>
-    <option value="2022">2022</option>
-    <option value="2023">2023</option>
-    <option value="2024">2024</option>
-    <!-- Agrega aquí las opciones para otros años disponibles -->
-  </select>
 
-  {{ form.numero }}<br>
+
+
 
   <label for="responsable">Responsable:</label>
   <input type="text" id="responsable" name="responsable" required><br>

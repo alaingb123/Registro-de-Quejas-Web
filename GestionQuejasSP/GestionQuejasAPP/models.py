@@ -1,5 +1,7 @@
 from django.db import models
-
+from datetime import timedelta
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 # Create your models here.
 
 
@@ -13,7 +15,7 @@ class Queja(models.Model):
     clasificacion=models.CharField(max_length=20)
     casoPrensa=models.CharField(max_length=20)
     fechaR=models.DateTimeField()
-    fechaT=models.DateTimeField()
+    fechaT=models.DateTimeField(null=True, blank=True)
     created=models.DateTimeField(auto_now_add=True)
     updated=models.DateTimeField(auto_now_add=True)
 
@@ -25,12 +27,16 @@ class Queja(models.Model):
         texto = 'numero: {}....Nombre y Apellidos: {}.... Fecha Recibido: {}'
         return texto.format(self.numero, self.nombre_apellidos,self.fechaR.date())
 
-    def save( self,*args,**kwargs ):
+
+    def save(self, *args, **kwargs):
         if not self.pk:
-            last_number=Queja.objects.filter(fechaR__year=self.fechaR.year).order_by('-numero').first()
+            last_number = Queja.objects.filter(fechaR__year=self.fechaR.year).order_by('-numero').first()
             if last_number:
-                self.numero=last_number.numero + 1
-        super().save(*args,**kwargs)
+                self.numero = last_number.numero + 1
+            else:
+                self.numero = 1
+        super().save(*args, **kwargs)
+
 
 
 class Respuesta(models.Model):
@@ -51,3 +57,9 @@ class Respuesta(models.Model):
     def __str__(self):
         azucar = 'Queja: {} Responsable: {} Entrega: {} '
         return azucar.format(self.numero, self.responsable, self.entrega)
+
+
+@receiver(pre_save, sender=Queja)
+def actualizar_fecha_termino(sender, instance, **kwargs):
+    if instance.fechaR:
+        instance.fechaT = instance.fechaR + timedelta(days=30)
