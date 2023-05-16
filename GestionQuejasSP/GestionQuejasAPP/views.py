@@ -7,16 +7,36 @@ from .forms import QuejaForm,RespuestaForm,FiltroQuejasForm
 from .models import Queja
 from django.views.decorators.cache import never_cache
 from datetime import datetime
+from django.db.models import Q
 
 
 # Create your views here.
 @login_required(login_url='login')
 def dash(request):
-    return render(request,'dashboard/dash.html')
+    # Obtener el año actual
+    current_year = datetime.now().year
+
+    # Obtener el valor del campo years del formulario
+    year = request.GET.get('years', current_year)
+
+    # Filtrar las quejas por el año seleccionado en el formulario
+    quejas = Queja.objects.filter(fechaR__year=year)
+
+    # Inicializar el formulario con el valor seleccionado en el formulario
+    form = FiltroQuejasForm(initial={'years': year})
+
+    context = {
+        'form': form,
+        'quejas': quejas,
+    }
+
+    # Renderizar la plantilla y devolver una respuesta HttpResponse que contenga el objeto de contexto
+    return render(request, 'dashboard/dash.html', context)
 
 
 @login_required(login_url='login')
 def InsertarQueja(request):
+    error_message = ''
     if request.method == 'POST':
         form = QuejaForm(request.POST)
         if form.is_valid():
@@ -25,9 +45,11 @@ def InsertarQueja(request):
             queja.save()
             # El formulario es válido, guardar los datos en la base de datos
             return render(request, 'dashboard/dash.html')
+        else:
+            error_message = 'Datos inválidos, verifique el formulario'
     else:
-        error_message='Datos Invalidos'
-    return render(request, 'Gestionar Queja/insertarQ.html', {'error_message': error_message})
+        form = QuejaForm()
+    return render(request, 'insertarQueja.html', {'form': form, 'error_message': error_message})
 
 @login_required(login_url='login')
 def insertar_respuesta(request):
@@ -69,15 +91,20 @@ def acercaDe(request):
     return render(request,'acerca de.html')
 
 
-def vista_filtrar_quejas(request):
-    print(request.GET)
+
+
+def vista_filtrar_quejas_sin_respuestas(request):
     form = FiltroQuejasForm(request.GET or None)
 
     if form.is_valid():
         year = form.cleaned_data['years']
-        quejas = Queja.objects.filter(fechaR__year=year)
+        quejas = Queja.objects.filter(fechaR__year=year).exclude(
+            Q(respuesta__isnull=False) | Q(respuesta__exact='')
+        )
     else:
-        quejas = Queja.objects.all()
+        quejas = Queja.objects.exclude(
+            Q(respuesta__isnull=False) | Q(respuesta__exact='')
+        )
 
     context = {
         'form': form,

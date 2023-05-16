@@ -25,12 +25,15 @@ class Queja(models.Model):
         texto = 'numero: {}....Nombre y Apellidos: {}.... Fecha Recibido: {}'
         return texto.format(self.numero, self.nombre_apellidos,self.fechaR.date())
 
-    def save( self,*args,**kwargs ):
+
+    def save(self, *args, **kwargs):
         if not self.pk:
-            last_number=Queja.objects.filter(fechaR__year=self.fechaR.year).order_by('-numero').first()
+            last_number = Queja.objects.filter(fechaR__year=self.fechaR.year).order_by('-numero').first()
             if last_number:
-                self.numero=last_number.numero + 1
-        super().save(*args,**kwargs)
+                self.numero = last_number.numero + 1
+            else:
+                self.numero = 1
+        super().save(*args, **kwargs)
 
 
 class Respuesta(models.Model):

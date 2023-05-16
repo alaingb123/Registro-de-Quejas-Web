@@ -1,11 +1,11 @@
 from django.urls import path,include
-from .views import dash,InsertarQueja,insertar_respuesta,modificarQ,eliminarQ,buscarQ,modificarR,eliminarR,buscarR,acercaDe,vista_filtrar_quejas
+from .views import dash,InsertarQueja,insertar_respuesta,modificarQ,eliminarQ,buscarQ,modificarR,eliminarR,buscarR,acercaDe,vista_filtrar_quejas_sin_respuestas
 from django.contrib.auth.decorators import login_required
 
 
 urlpatterns = [
     path('',login_required(dash),name="dash"),
-    path('filtrar/', vista_filtrar_quejas, name='filtrar_quejas'),
+    path('filtrarSR/', vista_filtrar_quejas_sin_respuestas, name='filtrar_quejas_sin_respuestas'),
     #Gestionar Queja
     path('insertar_queja/', InsertarQueja, name="insertar_queja"),
     path('modificarQ/',modificarQ,name="modificarQ"),
