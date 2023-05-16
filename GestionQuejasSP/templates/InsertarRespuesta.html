@@ -31,7 +31,7 @@
 
     <input type="submit" value="Enviar">
   </form> -->
- <form method="get" action="{% url 'filtrar_quejas_sin_respuestas' %}" href="{% url 'filtrar_quejas' %}">
+ <form method="get" action="{% url 'filtrar_quejas_sin_respuestas' %}" href="{% url 'filtrar_quejas_sin_respuestas' %}">
     {{ form.as_p }}
     <button type="submit">Filtrar</button>
 </form>
@@ -49,7 +49,7 @@
     </ul>
 {% endif %}
 
-<form method="POST" action="{% url 'insertar_respuesta' %}">
+<form method="POST" action="{% url 'filtrar_quejas_sin_respuestas' %}">
   {% csrf_token %}
 
 

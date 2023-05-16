@@ -1,14 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from .forms import QuejaForm,RespuestaForm,FiltroQuejasForm
 from .models import Queja
 from django.views.decorators.cache import never_cache
 from datetime import datetime
 from django.db.models import Q
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 
 
 # Create your views here.
@@ -20,8 +21,8 @@ def dash(request):
     # Obtener el valor del campo years del formulario
     year = request.GET.get('years', current_year)
 
-    # Filtrar las quejas por el año seleccionado en el formulario
-    quejas = Queja.objects.filter(fechaR__year=year)
+    # Filtrar las quejas por el año seleccionado en el formulario y ordenarlas por el campo de ordenamiento
+    quejas = Queja.objects.filter(fechaR__year=year).order_by('orden')
 
     # Inicializar el formulario con el valor seleccionado en el formulario
     form = FiltroQuejasForm(initial={'years': year})
@@ -42,7 +43,7 @@ def InsertarQueja(request):
         form = QuejaForm(request.POST)
         if form.is_valid():
             queja = form.save(commit=False)
-            # Modificar el modelo queja si es necesario
+            queja.orden = Queja.objects.count() + 1  # Establecer el orden en el siguiente número disponible
             queja.save()
             # El formulario es válido, guardar los datos en la base de datos
             return redirect(reverse('dash'))
@@ -68,12 +69,30 @@ def insertar_respuesta(request):
     else:
         form = RespuestaForm()
     return render(request, 'InsertarRespuesta.html', {'form': form})
+
 @login_required(login_url='login')
-def modificarQ(request):
-    return render(request,'Gestionar Queja/editarQueja.html')
-@login_required(login_url='login')
-def eliminarQ(request):
-    return render(request,'Gestionar Queja/eliminarQueja.html')
+def modificarQ(request, pk):
+    # Obtener la queja que se va a editar
+    queja = get_object_or_404(Queja, numero=pk)
+
+    # Si el formulario se ha enviado
+    if request.method == 'POST':
+        # Obtener los datos del formulario
+        form = QuejaForm(request.POST, instance=queja)
+
+        # Si el formulario es válido, actualizar la queja en la base de datos
+        if form.is_valid():
+            queja = form.save()
+
+            # Redirigir a la página de detalles de la queja actualizada
+            return redirect('dash')
+
+    # Si el formulario no se ha enviado, mostrar el formulario de edición
+    else:
+        form = QuejaForm(instance=queja)
+
+    return render(request, 'editarQueja(prueba).html', {'form': form, 'queja': queja})
+
 
 @login_required(login_url='login')
 def buscarQ(request):
@@ -113,3 +132,24 @@ def vista_filtrar_quejas_sin_respuestas(request):
     }
 
     return render(request, 'dashboard/dash.html', context)
+
+def seleccionar_queja(request):
+    # Recuperar todas las quejas del año actual de la base de datos
+    year = datetime.date.today().year
+    quejas = Queja.objects.filter(fechaR__year=year)
+
+    if request.method == 'POST':
+        # Recuperar la queja seleccionada por el usuario
+        pk = request.POST['pk']
+
+        # Redirigir al usuario a la página de edición correspondiente
+        return redirect('editar_queja', pk=pk)
+
+    # Renderizar la lista de quejas disponibles
+    return render(request, 'seleccionarQueja.html', {'quejas': quejas})
+
+@require_POST
+def eliminarQ(request, pk):
+    queja = get_object_or_404(Queja, pk=pk)
+    queja.delete()
+    return redirect('dash')

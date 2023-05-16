@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+
+   <form method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="nombre_apellidos">Nombre y apellidos:</label>
+    <input type="text" class="form-control" id="nombre_apellidos" name="nombre_apellidos" value="{{ queja.nombre_apellidos }}">
+  </div>
+  <div class="form-group">
+    <label for="entidadAfectada">Entidad afectada:</label>
+    <input type="text" class="form-control" id="entidadAfectada" name="entidadAfectada" value="{{ queja.entidadAfectada }}">
+  </div>
+  <div class="form-group">
+    <label for="modalidad">Modalidad:</label>
+    <input type="text" class="form-control" id="modalidad" name="modalidad" value="{{ queja.modalidad }}">
+  </div>
+  <div class="form-group">
+    <label for="via">Vía de ingreso:</label>
+    <input type="text" class="form-control" id="via" name="via" value="{{ queja.via }}">
+  </div>
+  <div class="form-group">
+    <label for="procedencia">Procedencia:</label>
+    <input type="text" class="form-control" id="procedencia" name="procedencia" value="{{ queja.procedencia }}">
+  </div>
+  <div class="form-group">
+    <label for="clasificacion">Clasificación:</label>
+    <input type="text" class="form-control" id="clasificacion" name="clasificacion" value="{{ queja.clasificacion }}">
+  </div>
+  <div class="form-group">
+    <label for="casoPrensa">Caso en prensa:</label>
+    <input type="text" class="form-control" id="casoPrensa" name="casoPrensa" value="{{ queja.casoPrensa }}">
+  </div>
+  <div class="form-group">
+    <label for="fechaR">Fecha de registro:</label>
+    <input type="datetime-local" class="form-control" id="fechaR" name="fechaR" value="{{ queja.fechaR|date:'Y-m-d\TH:i' }}">
+  </div>
+  <button type="submit" class="btn btn-primary">Guardar cambios</button>
+</form>
+</body>
+</html>

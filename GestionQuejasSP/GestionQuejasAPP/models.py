@@ -18,6 +18,8 @@ class Queja(models.Model):
     fechaT=models.DateTimeField(null=True, blank=True)
     created=models.DateTimeField(auto_now_add=True)
     updated=models.DateTimeField(auto_now_add=True)
+    orden = models.IntegerField(default=0)
+
 
     class Meta:
         verbose_name='queja'
