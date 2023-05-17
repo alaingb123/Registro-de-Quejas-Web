@@ -41,7 +41,13 @@
       <th scope="col">Satisfacción</th>
       <th scope="col">Conclusión</th>
       <th scope="col">Fecha de Registro</th>
+            {% for group in user.groups.all %}
+
+
+{% if "Funcionario" == group.name or "ViceDirectora" == group.name %}
       <th scope="col">Acciones</th>
+      {%endif%}
+      {%endfor%}
     </tr>
   </thead>
   <tbody>
@@ -65,11 +71,17 @@
       <td></td>
       {% endif %}
       <td>{{ queja.fechaR|date:"d/m" }}</td>
+      {% for group in user.groups.all %}
+
+
+{% if "Funcionario" == group.name or "ViceDirectora" == group.name %}
       <td>
         {% if queja.pk %}
         <a href="{% url 'modificarQ_with_numero' numero=queja.pk %}" class="btn btn-primary btn-sm">Editar</a>
         {% endif %}
       </td>
+        {%endif%}
+      {%endfor%}
     </tr>
     {% endfor %}
   </tbody>

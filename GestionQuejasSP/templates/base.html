@@ -179,25 +179,33 @@
               GESTIONAR QUEJAS
             </a>
           </li>
-          <li class="nav-item">
-             <a class="nav-link {% if request.path == '/dash/insertar_queja/' %}active {% endif %}" href="{% url 'insertar_queja' %}"  style="background-color: rgba(238,245,250,0.11)" >
-              <span data-feather="shopping-cart" class="align-text-bottom"></span>
-              Insertar Queja
-            </a>
-          </li>
-          <li class="nav-item">
-             <a class="nav-link {% if request.path == '/dash/modificarQ/' %} active {% endif %} " href="#"  style="background-color: rgba(238,245,250,0.11)" >
-              <span data-feather="users" class="align-text-bottom"></span>
-              Editar Queja
-            </a>
-          </li>
+
+
+            {% for group in user.groups.all %}
+
+
+{% if "Funcionario" == group.name or  "ViceDirectora" == group.name %}
+    <li class="nav-item">
+      <a class="nav-link {% if request.path == '/dash/insertar_queja/' %}active {% endif %}" href="{% url 'insertar_queja' %}"  style="background-color: rgba(238,245,250,0.11)" >
+        <span data-feather="shopping-cart" class="align-text-bottom"></span>
+        Insertar Queja
+      </a>
+    </li>
+{% endif %}
+
+        {% endfor %}
+
           <li class="nav-item">
              <a class="nav-link {% if request.path == '/dash/buscarQ/' %}active {% endif %} " href="{% url 'buscarQ' %}"  style="background-color: rgba(238,245,250,0.11)" >
               <span data-feather="bar-chart-2" class="align-text-bottom"></span>
              Buscar Queja
             </a>
           </li>
-          <li class="nav-item">
+{% for group in user.groups.all %}
+
+
+{% if "Funcionario" == group.name or "ViceDirectora" == group.name %}
+            <li class="nav-item">
           <a class="nav-link {% if request.path == '/dash/eliminar_ultima_queja/' %}active {% endif %}" href="{% url 'eliminar_ultima_queja' %}" style="background-color: rgba(238,245,250,0.11)" id="eliminarQuejaLink">
   <span data-feather="layers" class="align-text-bottom"></span>
   Eliminar Queja
@@ -220,7 +228,12 @@
     }
   });
 </script>
+
+                {% endif %}
+                {% endfor %}
           </li>
+
+
         </ul>
 
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
@@ -230,36 +243,61 @@
           </a>
         </h6>
         <ul class="nav flex-column mb-2">
+            {% for group in user.groups.all %}
+
+
+{% if "JefeDep" == group.name or  "ViceDirectora" == group.name %}
           <li class="nav-item">
+
+
             <a class="nav-link {% if request.path == '/dash/insertar_respuesta/' %}active {% endif %} " href="{% url 'insertar_respuesta' %}" style="background-color: rgba(238,245,250,0.11)">
               <span data-feather="file-text" class="align-text-bottom"></span>
              Insertar Respuesta
             </a>
           </li>
+
           <li class="nav-item">
             <a class="nav-link {% if request.path == '/dash/modificarR/' %}active {% endif %} " href="{% url 'modificarR' %}" style="background-color: rgba(238,245,250,0.11)">
               <span data-feather="file-text" class="align-text-bottom"></span>
               Editar Respuesta
             </a>
           </li>
+  {%endif%}
+            {%endfor%}
+
           <li class="nav-item">
             <a class="nav-link {% if request.path == '/dash/buscarR/' %}active {% endif %} " href="{% url 'buscarR' %}" style="background-color: rgba(238,245,250,0.11)">
               <span data-feather="file-text" class="align-text-bottom"></span>
                Buscar Respuesta
             </a>
           </li>
-          <li class="nav-item">
+
+{% for group in user.groups.all %}
+
+
+{% if "JefeDep" == group.name or  "ViceDirectora" == group.name %}
+            <li class="nav-item">
             <a class="nav-link {% if request.path == '/dash/eliminarR/' %}active {% endif %} " href="{% url 'eliminarR' %}" style="background-color: rgba(238,245,250,0.11)">
               <span data-feather="file-text" class="align-text-bottom"></span>
               Eliminar Respuesta
             </a>
           </li>
-             <li class="nav-item">
-            <a class="nav-link" href="#" >
-              <span data-feather="file-text" class="align-text-bottom"></span>
+
+ {%endif%}
+            {%endfor%}
+
+            {% for group in user.groups.all %}
+
+
+{% if "Moderador" == group.name or  user.is_superuser %}
+              <li class="nav-item">
+            <a class="nav-link" href="{% url 'ir_admin' %}" >
+              <span data-feather="file-text"  class="align-text-bottom"></span>
               GESTIONAR USUARIO
             </a>
           </li>
+ {%endif%}
+            {%endfor%}
              <li class="nav-item">
             <a class="nav-link {% if request.path == '/acercaDe/' %}active {% endif %} " href="{% url 'acercaDe' %}" >
               <span data-feather="file-text" class="align-text-bottom"></span>

@@ -203,3 +203,7 @@ def buscarQ(request):
             quejas = quejas.filter(numero__icontains=numero)
 
     return render(request, 'buscarQueja.html.', {'quejas': quejas})
+
+
+def ir_a_administracion(request):
+    return redirect(reverse('admin:index'))
