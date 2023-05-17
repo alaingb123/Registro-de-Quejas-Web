@@ -5,8 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<form method="POST">
-    {% csrf_token %}
+<form method="GET">
     <div class="form-group">
         <label for="nombre_apellidos">Nombre/Apellidos:</label>
         <input type="text" id="nombre_apellidos" name="nombre_apellidos" class="form-control" value="{{ request.GET.nombre_apellidos }}">
@@ -48,59 +47,56 @@
         <input type="text" id="numero" name="numero" class="form-control" value="{{ request.GET.numero }}">
     </div>
     <button type="submit" class="btn btn-primary">Buscar</button>
-
-
-</form>
-
- {% if quejas %}
-    <table class="table table-striped table-sm table-bordered" id="mi-tabla">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nombre/Apellidos</th>
-                <th scope="col">Entidad Afectada</th>
-                <th scope="col">Modalidad</th>
-                <th scope="col">Vía</th>
-                <th scope="col">Procedencia</th>
-                <th scope="col">Clasificación</th>
-                <th scope="col">Caso Prensa</th>
-                <th scope="col">Entrega</th>
-                <th scope="col">Satisfacción</th>
-                <th scope="col">Conclusión</th>
-                <th scope="col">Fecha de Registro</th>
-                <th scope="col">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for queja in quejas %}
+    {% if quejas %}
+        <table class="table table-striped table-sm table-bordered" id="mi-tabla">
+            <thead>
                 <tr>
-                    <td>{{ queja.numero }}</td>
-                    <td>{{ queja.nombre_apellidos }}</td>
-                    <td>{{ queja.entidadAfectada }}</td>
-                    <td>{{ queja.modalidad }}</td>
-                    <td>{{ queja.via }}</td>
-                    <td>{{ queja.procedencia }}</td>
-                    <td>{{ queja.clasificacion }}</td>
-                    <td>{{ queja.casoPrensa }}</td>
-                    {% if queja.respuesta %}
-                        <td>{{ queja.respuesta.entrega }}</td>
-                        <td>{{ queja.respuesta.satisfaccion }}</td>
-                        <td>{{ queja.respuesta.conclusion }}</td>
-                    {% else %}
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    {% endif %}
-                    <td>{{ queja.fechaR|date:"d/m" }}</td>
-                    <td>
-                        {% if queja.pk %}
-                            <a href="{% url 'modificarQ_with_numero' numero=queja.pk %}" class="btn btn-primary btn-sm">Editar</a>
-                        {% endif %}
-                    </td>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre/Apellidos</th>
+                    <th scope="col">Entidad Afectada</th>
+                    <th scope="col">Modalidad</th>
+                    <th scope="col">Vía</th>
+                    <th scope="col">Procedencia</th>
+                    <th scope="col">Clasificación</th>
+                    <th scope="col">Caso Prensa</th>
+                    <th scope="col">Entrega</th>
+                    <th scope="col">Satisfacción</th>
+                    <th scope="col">Conclusión</th>
+                    <th scope="col">Fecha de Registro</th>
+                    <th scope="col">Acciones</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% endif %}
+            </thead>
+            <tbody>
+                {% for queja in quejas %}
+                    <tr>
+                        <td>{{ queja.numero }}</td>
+                        <td>{{ queja.nombre_apellidos }}</td>
+                        <td>{{ queja.entidadAfectada }}</td>
+                        <td>{{ queja.modalidad }}</td>
+                        <td>{{ queja.via }}</td>
+                        <td>{{ queja.procedencia }}</td>
+                        <td>{{ queja.clasificacion }}</td>
+                        <td>{{ queja.casoPrensa }}</td>
+                        {% if queja.respuesta %}
+                            <td>{{ queja.respuesta.entrega }}</td>
+                            <td>{{ queja.respuesta.satisfaccion }}</td>
+                            <td>{{ queja.respuesta.conclusion }}</td>
+                        {% else %}
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        {% endif %}
+                        <td>{{ queja.fechaR|date:"d/m" }}</td>
+                        <td>
+                            {% if queja.pk %}
+                                <a href="{% url 'modificarQ_with_numero' numero=queja.pk %}" class="btn btn-primary btn-sm">Editar</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</form>
 </body>
 </html>

@@ -157,19 +157,20 @@ def eliminar_ultima_queja(request):
 
 @login_required(login_url='login')
 def buscarQ(request):
-    form = BuscadorQuejasForm(request.GET)
-    quejas = Queja.objects.all()
+    quejas = None
+    if request.GET:
+        nombre_apellidos = request.GET.get('nombre_apellidos')
+        entidadAfectada = request.GET.get('entidadAfectada')
+        modalidad = request.GET.get('modalidad')
+        via = request.GET.get('via')
+        procedencia = request.GET.get('procedencia')
+        clasificacion = request.GET.get('clasificacion')
+        casoPrensa = request.GET.get('casoPrensa')
+        fechaR_desde = request.GET.get('fechaR_desde')
+        fechaR_hasta = request.GET.get('fechaR_hasta')
+        numero = request.GET.get('numero')
 
-    if form.is_valid():
-        nombre_apellidos = form.cleaned_data.get('nombre_apellidos')
-        entidadAfectada = form.cleaned_data.get('entidadAfectada')
-        modalidad = form.cleaned_data.get('modalidad')
-        via = form.cleaned_data.get('via')
-        procedencia = form.cleaned_data.get('procedencia')
-        clasificacion = form.cleaned_data.get('clasificacion')
-        casoPrensa = form.cleaned_data.get('casoPrensa')
-        fechaR_desde = form.cleaned_data.get('fechaR_desde')
-        fechaR_hasta = form.cleaned_data.get('fechaR_hasta')
+        quejas = Queja.objects.all()
 
         if nombre_apellidos:
             quejas = quejas.filter(nombre_apellidos__icontains=nombre_apellidos)
@@ -198,8 +199,7 @@ def buscarQ(request):
         if fechaR_hasta:
             quejas = quejas.filter(fechaR__lte=fechaR_hasta)
 
-    context = {
-        'form': form,
-        'quejas': quejas
-    }
-    return render(request, 'buscarQueja.html', context)
+        if numero:
+            quejas = quejas.filter(numero__icontains=numero)
+
+    return render(request, 'buscarQueja.html.', {'quejas': quejas})
