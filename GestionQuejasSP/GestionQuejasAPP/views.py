@@ -90,7 +90,7 @@ def modificarQ(request, numero):
     else:
         form = QuejaForm(instance=queja)
 
-    return render(request, 'editarQueja(prueba).html', {'form': form, 'queja': queja})
+    return render(request, 'Gestionar Queja/editarQueja.html', {'form': form, 'queja': queja})
 
 
 @login_required(login_url='login')

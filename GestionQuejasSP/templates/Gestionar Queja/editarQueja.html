@@ -1,4 +1,4 @@
-% extends "base.html" %}
+{% extends "base.html" %}
 
 {% load static %}
 
@@ -32,7 +32,7 @@
 
 
 
-<link href="{% static  'css/insertar.css' %}" rel="stylesheet">
+<link href="{% static  'css/editar.css' %}" rel="stylesheet">
 
     <style>
       .bd-placeholder-img {
@@ -169,109 +169,130 @@
 
 
          <!-- Formulario -->
-        <form class="needs-validation" novalidate method="POST">
+        <form class="needs-validation" method="POST">
   {% csrf_token %}
 
-            {% if error_message %}
-    <p class="alert alert-danger" role="alert">{{ error_message }}</p>
-{% endif %}
 
-{% if form.errors %}
-    <ul>
-    {% for field_errors in form.errors.values %}
-        {% for error in field_errors %}
-            <li class="alert alert-danger" role="alert">{{ error }}</li>
-        {% endfor %}
-    {% endfor %}
-    </ul>
-{% endif %}
+   <div class="row">
+    <div class="col-sm-6 mb-3">
+      <label for="nombre_apellidos" class="form-label">Nombre y apellidos</label>
+      <input type="text" class="form-control" id="nombre_apellidos" name="nombre_apellidos" value="{{ form.nombre_apellidos.value }}" required>
+      <div class="invalid-feedback">
+        Por favor, introduzca su nombre y apellidos.
+      </div>
+    </div>
 
-  <div class="row">
     <div class="col-sm-6 mb-3">
-      <label for="nombre_apellidos">Nombre y apellidos:</label>
-    <input type="text" class="form-control" id="nombre_apellidos" name="nombre_apellidos" value="{{ queja.nombre_apellidos }}">
+      <label for="entidadAfectada" class="form-label">Entidad afectada</label>
+      <select class="form-select" id="entidadAfectada" name="entidadAfectada" required>
+        <option value="">Elegir...</option>
+        <option value="1-Recursos Humanos" {% if form.entidadAfectada.value == '1-Recursos Humanos' %}selected{% endif %}>1-Recursos Humanos</option>
+        <option value="2-Higiene y Epidemiologia" {% if form.entidadAfectada.value == '2-Higiene y Epidemiologia' %}selected{% endif %}>2-Higiene y Epidemiologia</option>
+        <option value="3-Asistencia Medica" {% if form.entidadAfectada.value == '3-Asistencia Medica' %}selected{% endif %}>3-Asistencia Medica</option>
+        <option value="4-Vicedireccion Economica" {% if form.entidadAfectada.value == '4-Vicedireccion Economica' %}selected{% endif %}>4-Vicedireccion Economica</option>
+        <option value="5-Vicedireccion General" {% if form.entidadAfectada.value == '5-Vicedireccion General' %}selected{% endif %}>5-Vicedireccion General</option>
+      </select>
+      <div class="invalid-feedback">
+        Por favor, seleccione la entidad afectada.
+      </div>
     </div>
+
+    <div class="col-12 col-lg-6 mb-3">
+      <label for="modalidad" class="form-label">Modalidad</label>
+      <select class="form-select" id="modalidad" name="modalidad" required>
+        <option value="">Elegir...</option>
+        <option value="1-Solicitud" {% if form.modalidad.value == '1-Solicitud' %}selected{% endif %}>1-Solicitud</option>
+        <option value="2-Queja" {% if form.modalidad.value == '2-Queja' %}selected{% endif %}>2-Queja</option>
+        <option value="3-Anonimo o Denuncia" {% if form.modalidad.value == '3-Anonimo o Denuncia' %}selected{% endif %}>3-Anonimo o Denuncia</option>
+        <option value="4-Sugerencia" {% if form.modalidad.value == '4-Sugerencia' %}selected{% endif %}>4-Sugerencia</option>
+        <option value="5-Reclamacion" {% if form.modalidad.value == '5-Reclamacion' %}selected{% endif %}>5-Reclamacion</option>
+        <option value="6-Reconocimiento" {% if form.modalidad.value == '6-Reconocimiento' %}selected{% endif %}>6-Reconocimiento</option>
+      </select>
+      <div class="invalid-feedback">
+        Por favor, seleccione la modalidad.
+      </div>
+    </div>
+
     <div class="col-sm-6 mb-3">
-            <label for="entidadAfectada">Entidad afectada:</label>
-      <select class="form-select" id="entidadAfectada" name="entidadAfectada" value="{{ queja.entidadAfectada }}">
+      <label for="via" class="form-label">Vía de ingreso</label>
+      <select class="form-select" id="via" name="via" required>
         <option value="">Elegir...</option>
-        <option>1-Recursos Humanos</option>
-        <option>2-Higiene y Epidemiologia</option>
-        <option>3-Asistencia Medica</option>
-        <option>4-Vicedireccion Economica</option>
-        <option>5-Vicedireccion General</option>
+        <option value="1-Carta" {% if form.via.value == '1-Carta' %}selected{% endif %}>1-Carta</option>
+        <option value="2-Entrevista" {% if form.via.value == '2-Entrevista' %}selected{% endif %}>2-Entrevista</option>
+        <option value="3-Telefono" {% if form.via.value == '3-Telefono' %}selected{% endif %}>3-Telefono</option>
       </select>
+      <div class="invalid-feedback">
+        Por favor, seleccione la vía de ingreso.
+      </div>
     </div>
+
     <div class="col-12 col-lg-6 mb-3">
-     <label for="modalidad">Modalidad:</label>
-      <select class="form-select" id="modalidad" name="modalidad" value="{{ queja.modalidad }}">
+      <label for="procedencia" class="form-label">Procedencia</label>
+      <select class="form-select" id="procedencia" name="procedencia" required>
         <option value="">Elegir...</option>
-        <option>1-Solicitud</option>
-        <option>2-Queja</option>
-        <option>3-Anonimo o Denuncia</option>
-        <option>4-Sugerencia</option>
-        <option>5-Reclamacion</option>
-        <option>6-Reconocimiento</option>
+        <option value="1-MINSAP" {% if form.procedencia.value == '1-MINSAP' %}selected{% endif %}>1-MINSAP</option>
+        <option value="2-PCC" {% if form.procedencia.value == '2-PCC' %}selected{% endif %}>2-PCC</option>
+        <option value="3-APPP" {% if form.procedencia.value == '3-APPP' %}selected{% endif %}>3-APPP</option>
+        <option value="4-Directo al Sectorial" {% if form.procedencia.value == '4-Directo al Sectorial' %}selected{% endif %}>4-Directo al Sectorial</option>
+        <option value="5-Otros" {% if form.procedencia.value == '5-Otros' %}selected{% endif %}>5-Otros</option>
       </select>
+      <div class="invalid-feedback">
+        Por favor, seleccione la procedencia.
+      </div>
     </div>
+
     <div class="col-sm-6 mb-3">
-      <label for="via">Vía de ingreso:</label>
-      <select class="form-select" id="via" name="via" value="{{ queja.via }}">
+      <label for="clasificacion" class="form-label">Clasificación</label>
+      <select class="form-select" id="clasificacion" name="clasificacion" required>
         <option value="">Elegir...</option>
-        <option>1-Carta</option>
-        <option>2-Entrevista</option>
-        <option>3-Telefono</option>
+        <option value="1-Asistencia Medica" {% if form.clasificacion.value == '1-Asistencia Medica' %}selected{% endif %}>1-Asistencia Medica</option>
+        <option value="2-APS y Enfermeria" {% if form.clasificacion.value == '2-APS y Enfermeria' %}selected{% endif %}>2-APS y Enfermeria</option>
+        <option value="3-Por Fallecimiento" {% if form.clasificacion.value == '3-Por Fallecimiento' %}selected{% endif %}>3-Por Fallecimiento</option>
+        <option value="4-Higiene" {% if form.clasificacion.value == '4-Higiene' %}selected{% endif %}>4-Higiene</option>
+        <option value="5-Medicina Optica y Audicion" {% if form.clasificacion.value == '5-Medicina Optica y Audicion' %}selected{% endif %}>5-Medicina Optica y Audicion</option>
+        <option value="6-Asistencia Social" {% if form.clasificacion.value == '6-Asistencia Social' %}selected{% endif %}>6-Asistencia Social</option>
+        <option value="7-Docencia" {% if form.clasificacion.value == '7-Docencia' %}selected{% endif %}>7-Docencia</option>
+        <option value="8-Laborales" {% if form.clasificacion.value == '8-Laborales' %}selected{% endif %}>8-Laborales</option>
+        <option value="9-Problemas Administrativos" {% if form.clasificacion.value == '9-Problemas Administrativos' %}selected{% endif %}>9-Problemas Administrativos</option>
+        <option value="10-Ambulancia" {% if form.clasificacion.value == '10-Ambulancia' %}selected{% endif %}>10-Ambulancia</option>
+        <option value="11-Solicitud de RH y Materiales" {% if form.clasificacion.value == '11-Solicitud de RH y Materiales' %}selected{% endif %}>11-Solicitud de RH y Materiales</option>
+        <option value="12-Construccion y Mantenimiento" {% if form.clasificacion.value == '12-Construccion y Mantenimiento' %}selected{% endif %}>12-Construccion y Mantenimiento</option>
+        <option value="13-Tratos" {% if form.clasificacion.value == '13-Tratos' %}selected{% endif %}>13-Tratos</option>
+        <option value="14-Condiciones de Trabajo" {% if form.clasificacion.value == '14-Condiciones de Trabajo' %}selected{% endif %}>14-Condiciones de Trabajo</option>
+        <option value="15-Vivienda" {% if form.clasificacion.value == '15-Vivienda' %}selected{% endif %}>15-Vivienda</option>
+        <option value="16-Salida del Pais" {% if form.clasificacion.value == '16-Salida del Pais' %}selected{% endif %}>16-Salida del Pais</option>
+        <option value="17-Otros" {% if form.clasificacion.value == '17-Otros' %}selected{% endif %}>17-Otros</option>
+
       </select>
+      <div class="invalid-feedback">
+        Por favor, seleccione la clasificación.
+      </div>
     </div>
-    <div class="col-12 col-lg-6 mb-3">
-      <label for="procedencia">Procedencia:</label>
-      <select class="form-select" id="procedencia" name="procedencia" value="{{ queja.procedencia }}">
-        <option value="">Elegir...</option>
-        <option>1-MINSAP</option>
-        <option>2-PCC</option>
-        <option>3-APPP</option>
-        <option>4-Directo al Sectorial</option>
-        <option>5-Otros</option>
-      </select>
-    </div>
+
     <div class="col-sm-6 mb-3">
-     <label for="clasificacion">Clasificación:</label>
-      <select class="form-select" id="clasificacion" name="clasificacion" value="{{ queja.clasificacion }}">
+      <label for="casoPrensa" class="form-label">Caso Prensa</label>
+      <select class="form-select" id="casoPrensa" name="casoPrensa" required>
         <option value="">Elegir...</option>
-        <option>1-Asistencia Medica</option>
-        <option>2-APS y Enfermeria</option>
-        <option>3-Por Fallecimiento</option>
-        <option>4-Higiene</option>
-        <option>5-Medicina Optica y Audicion</option>
-        <option>6-Asistencia Social</option>
-        <option>7-Docencia</option>
-        <option>8-Laborales</option>
-        <option>9-Problemas Administrativos</option>
-        <option>10-Ambulancia</option>
-        <option>11-Solicitud de RH y Materiales</option>
-        <option>12-Construccion y Mantenimiento</option>
-        <option>13-Tratos</option>
-        <option>14-Condiciones de Trabajo</option>
-        <option>15-Vivienda</option>
-        <option>16-Salida del Pais</option>
-        <option>17-Otros</option>
+        <option value="1-No" {% if form.casoPrensa.value == '1-No' %}selected{% endif %}>1-No</option>
+        <option value="2-Plataforma Bienestar" {% if form.casoPrensa.value == '2-Plataforma Bienestar' %}selected{% endif %}>2-Plataforma Bienestar</option>
+        <option value="3-Periodico Granma" {% if form.casoPrensa.value == '3-Periodico Granma' %}selected{% endif %}>3-Periodico Granma</option>
       </select>
+      <div class="invalid-feedback">
+        Por favor, seleccione si es un caso de prensa.
+      </div>
     </div>
+
     <div class="col-12 col-lg-6 mb-3">
-     <label for="casoPrensa">Caso en prensa:</label>
-      <select class="form-select" id="casoPrensa" name="casoPrensa" value="{{ queja.casoPrensa }}">
-        <option value="">Elegir...</option>
-        <option>1-No</option>
-        <option>2-Plataforma Bienestar</option>
-        <option>3-Periodico Granma</option>
-      </select>
-    </div>
-    <div class="col-12 col-lg-6 mb-3">
-      <label for="fechaR">Fecha de registro:</label>
-      <input type="datetime-local" class="form-control" id="fechaR" name="fechaR" value="{{ queja.fechaR|date:'Y-m-d\TH:i' }}">
+      <label for="fechaR" class="form-label">Fecha:</label>
+      <input type="datetime-local" class="form-control" id="fechaR" name="fechaR" value="{{ queja.fechaR}}" required >
+      <div class="invalid-feedback">
+        Por favor seleccione una fecha.
+      </div>
     </div>
   </div>
 
-  <button class="w-50 btn btn-primary btn-lg mx-auto d-block" type="submit" style="margin-bottom: 30px">Guardar Cambios</button>
-</form>
-      {% endblock %}{
+  <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+      {% endblock %}
+
+
