@@ -5,7 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-<form method="get">
+<form method="POST">
+    {% csrf_token %}
     <div class="form-group">
         <label for="nombre_apellidos">Nombre/Apellidos:</label>
         <input type="text" id="nombre_apellidos" name="nombre_apellidos" class="form-control" value="{{ request.GET.nombre_apellidos }}">
