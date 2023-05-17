@@ -35,3 +35,14 @@ class FiltroQuejasForm(forms.Form):
         self.fields['years'].choices = choices
         print(choices)
 
+
+class BuscadorQuejasForm(forms.Form):
+    nombre_apellidos = forms.CharField(required=False)
+    entidadAfectada = forms.CharField(required=False)
+    modalidad = forms.CharField(required=False)
+    via = forms.CharField(required=False)
+    procedencia = forms.CharField(required=False)
+    clasificacion = forms.CharField(required=False)
+    casoPrensa = forms.CharField(required=False)
+    fechaR_desde = forms.DateField(required=False)
+    fechaR_hasta = forms.DateField(required=False)

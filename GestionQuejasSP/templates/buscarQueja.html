@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="get">
+    <div class="form-group">
+        <label for="nombre_apellidos">Nombre/Apellidos:</label>
+        <input type="text" id="nombre_apellidos" name="nombre_apellidos" class="form-control" value="{{ request.GET.nombre_apellidos }}">
+    </div>
+    <div class="form-group">
+        <label for="entidadAfectada">Entidad Afectada:</label>
+        <input type="text" id="entidadAfectada" name="entidadAfectada" class="form-control" value="{{ request.GET.entidadAfectada }}">
+    </div>
+    <div class="form-group">
+        <label for="modalidad">Modalidad:</label>
+        <input type="text" id="modalidad" name="modalidad" class="form-control" value="{{ request.GET.modalidad }}">
+    </div>
+    <div class="form-group">
+        <label for="via">Vía:</label>
+        <input type="text" id="via" name="via" class="form-control" value="{{ request.GET.via }}">
+    </div>
+    <div class="form-group">
+        <label for="procedencia">Procedencia:</label>
+        <input type="text" id="procedencia" name="procedencia" class="form-control" value="{{ request.GET.procedencia }}">
+    </div>
+    <div class="form-group">
+        <label for="clasificacion">Clasificación:</label>
+        <input type="text" id="clasificacion" name="clasificacion" class="form-control" value="{{ request.GET.clasificacion }}">
+    </div>
+    <div class="form-group">
+        <label for="casoPrensa">Caso Prensa:</label>
+        <input type="text" id="casoPrensa" name="casoPrensa" class="form-control" value="{{ request.GET.casoPrensa }}">
+    </div>
+    <div class="form-group">
+        <label for="fechaR_desde">Fecha de registro desde:</label>
+        <input type="date" id="fechaR_desde" name="fechaR_desde" class="form-control" value="{{ request.GET.fechaR_desde }}">
+    </div>
+    <div class="form-group">
+        <label for="fechaR_hasta">Fecha de registro hasta:</label>
+        <input type="date" id="fechaR_hasta" name="fechaR_hasta" class="form-control" value="{{ request.GET.fechaR_hasta }}">
+    </div>
+    <div class="form-group">
+        <label for="numero">Número:</label>
+        <input type="text" id="numero" name="numero" class="form-control" value="{{ request.GET.numero }}">
+    </div>
+    <button type="submit" class="btn btn-primary">Buscar</button>
+
+
+</form>
+
+ {% if quejas %}
+    <table class="table table-striped table-sm table-bordered" id="mi-tabla">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre/Apellidos</th>
+                <th scope="col">Entidad Afectada</th>
+                <th scope="col">Modalidad</th>
+                <th scope="col">Vía</th>
+                <th scope="col">Procedencia</th>
+                <th scope="col">Clasificación</th>
+                <th scope="col">Caso Prensa</th>
+                <th scope="col">Entrega</th>
+                <th scope="col">Satisfacción</th>
+                <th scope="col">Conclusión</th>
+                <th scope="col">Fecha de Registro</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for queja in quejas %}
+                <tr>
+                    <td>{{ queja.numero }}</td>
+                    <td>{{ queja.nombre_apellidos }}</td>
+                    <td>{{ queja.entidadAfectada }}</td>
+                    <td>{{ queja.modalidad }}</td>
+                    <td>{{ queja.via }}</td>
+                    <td>{{ queja.procedencia }}</td>
+                    <td>{{ queja.clasificacion }}</td>
+                    <td>{{ queja.casoPrensa }}</td>
+                    {% if queja.respuesta %}
+                        <td>{{ queja.respuesta.entrega }}</td>
+                        <td>{{ queja.respuesta.satisfaccion }}</td>
+                        <td>{{ queja.respuesta.conclusion }}</td>
+                    {% else %}
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    {% endif %}
+                    <td>{{ queja.fechaR|date:"d/m" }}</td>
+                    <td>
+                        {% if queja.pk %}
+                            <a href="{% url 'modificarQ_with_numero' numero=queja.pk %}" class="btn btn-primary btn-sm">Editar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+</body>
+</html>
