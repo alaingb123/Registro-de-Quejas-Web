@@ -17,7 +17,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.es.min.js"></script>
-    <script src="{%  static 'nsertar.js' %}"></script>
+
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -169,131 +169,135 @@
 
 
          <!-- Formulario -->
-         <form class="needs-validation" method="POST" id="Formulario">
-          {% csrf_token %}
-        
-          <div class="row">
-            <div class="col-sm-6 mb-3">
-              <label for="nombre_apellidos" class="form-label">Nombre y Apellidos</label>
-              <input type="text" class="form-control" id="nombre_apellidos" name="nombre_apellidos" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                Por favor introduzca su nombre y apellido.
-              </div>
-            </div>
-            <div class="col-sm-6 mb-3">
-              <label for="entidadAfectada" class="form-label">Entidad Afectada</label>
-              <select class="form-select" id="entidadAfectada" name="entidadAfectada" required>
-                <option value="">Elegir...</option>
-                <option value="1">1-Recursos Humanos</option>
-                <option value="2">2-Higiene y Epidemiologia</option>
-                <option value="3">3-Asistencia Medica</option>
-                <option value="4">4-Vicedireccion Economica</option>
-                <option value="5">5-Vicedireccion General</option>
-              </select>
-              <div class="invalid-feedback">
-                 Por favor seleccione una entidad afectada válida.
-              </div>
-            </div>
-            <div class="col-12 col-lg-6 mb-3">
-              <label for="modalidad" class="form-label">Modalidad</label>
-              <select class="form-select" id="modalidad" name="modalidad" required>
-                <option value="">Elegir...</option>
-                <option value="1">1-Solicitud</option>
-                <option value="2">2-Queja</option>
-                <option value="3">3-Anonimo o Denuncia</option>
-                <option value="4">4-Sugerencia</option>
-                <option value="5">5-Reclamacion</option>
-                <option value="6">6-Reconocimiento</option>
-              </select>
-              <div class="invalid-feedback">
-                Por favor seleccione una modalidad válida.
-              </div>
-            </div>
-            <div class="col-sm-6 mb-3">
-              <label for="via" class="form-label">Vía</label>
-              <select class="form-select" id="via" name="via" required>
-                <option value="">Elegir...</option>
-                <option value="1">1-Carta</option>
-                <option value="2">2-Entrevista</option>
-                <option value="3">3-Teléfono</option>
-              </select>
-              <div class="invalid-feedback">
-                Por favor seleccione una vía válida.
-              </div>
-            </div>
-            <div class="col-12 col-lg-6 mb-3">
-              <label for="procedencia" class="form-label">Procedencia</label>
-              <select class="form-select" id="procedencia" name="procedencia" required>
-                <option value="">Elegir...</option>
-                <option value="1">1-MINSAP</option>
-                <option value="2">2-PCC</option>
-                <option value="3">3-APPP</option>
-                <option value="4">4-Directo al Sectorial</option>
-                <option value="5">5-Otros</option>
-              </select>
-              <div class="invalid-feedback">
-                Por favor seleccione una procedencia válida.
-              </div>
-            </div>
-            <div class="col-sm-6 mb-3">
-              <label for="clasificacion" class="form-label">Clasificación</label>
-              <select class="form-select" id="clasificacion" name="clasificacion" required>
-                <option value="">Elegir...</option>
-                <option value="1">1-Asistencia Médica</option>
-                <option value="2">2-APS y Enfermería</option>
-                <option value="3">3-Por Fallecimiento</option>
-                <option value="4">4-Higiene</option>
-                <option value="5">5-Medicina Óptica y Audición</option>
-                <option value="6">6-Asistencia Social</option>
-                <option value="7">7-Docencia</option>
-                <option value="8">8-Laborales</option>
-                <option value="9">9-Problemas Administrativos</option>
-                <option value="10">10-Ambulancia</option>
-                <option value="11">11-Solicitud de RH y Materiales</option>
-                <option value="12">12-Construcción y Mantenimiento</option>
-                <option value="13">13-Tratos</option>
-                <option value="14">14-Condiciones de Trabajo</option>
-                <option value="15">15-Vivienda</option>
-                <option value="16">16-Salida del País</option>
-                <option value="17">17-Otros</option>
-              </select>
-              <div class="invalid-feedback">
-                 Por favor seleccione una clasificación válida.
-              </div>
-            </div>
-            <div class="col-12 col-lg-6 mb-3">
-              <label for="casoPrensa" class="form-label">Caso Prensa</label>
-              <select class="form-select" id="casoPrensa" name="casoPrensa" required>
-                <option value="">Elegir...</option>
-                <option value="1">1-No</option>
-                <option value="2">2-Plataforma Bienestar</option>
-                <option value="3">3-Periódico Granma</option>
-              </select>
-              <div class="invalid-feedback">
-                Por favor seleccione una opción válida.
-              </div>
-            </div>
-            <div class="col-12 col-lg-6 mb-3">
-              <label for="fechaR" class="form-label">Fecha</label>
-              <input type="datetime-local" class="form-control" id="fechaR" name="fechaR" required pattern="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}">
-              <div class="invalid-feedback">
-                Por favor seleccione una fecha y hora válidas (formato: AAAA-MM-DDTHH:MM).
-              </div>
-            </div>
-          </div>
-        
-          <button class="w-50 btn btn-primary btn-lg mx-auto d-block" type="submit" style="margin-bottom: 30px">Insertar</button>
-        </form>
-        
-        <script>
-          document.getElementById("Formulario").addEventListener("submit", function(event) {
-            if (this.checkValidity() === false) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            this.classList.add("was-validated");
-          }, false);
-        </script>
-x        
+        <form class="needs-validation" novalidate method="POST">
+  {% csrf_token %}
+
+            {% if error_message %}
+    <p class="alert alert-danger" role="alert">{{ error_message }}</p>
+{% endif %}
+
+{% if form.errors %}
+    <ul>
+    {% for field_errors in form.errors.values %}
+        {% for error in field_errors %}
+            <li class="alert alert-danger" role="alert">{{ error }}</li>
+        {% endfor %}
+    {% endfor %}
+    </ul>
+{% endif %}
+
+  <div class="row">
+    <div class="col-sm-6 mb-3">
+      <label for="nombre_apellidos" class="form-label">Nombre y Apellidos</label>
+      <input type="text" class="form-control" id="nombre_apellidos" name="nombre_apellidos" placeholder="" value="" required>
+      <div class="invalid-feedback">
+        Por favor introduzca su nombre y apellido.
+      </div>
+    </div>
+    <div class="col-sm-6 mb-3">
+      <label for="entidadAfectada" class="form-label">Entidad Afectada</label>
+      <select class="form-select" id="entidadAfectada" name="entidadAfectada" required>
+        <option value="">Elegir...</option>
+        <option>1-Recursos Humanos</option>
+        <option>2-Higiene y Epidemiologia</option>
+        <option>3-Asistencia Medica</option>
+        <option>4-Vicedireccion Economica</option>
+        <option>5-Vicedireccion General</option>
+      </select>
+      <div class="invalid-feedback">
+         Por favor seleccione un dato válido.
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 mb-3">
+      <label for="modalidad" class="form-label">Modalidad</label>
+      <select class="form-select" id="modalidad" name="modalidad" required>
+        <option value="">Elegir...</option>
+        <option>1-Solicitud</option>
+        <option>2-Queja</option>
+        <option>3-Anonimo o Denuncia</option>
+        <option>4-Sugerencia</option>
+        <option>5-Reclamacion</option>
+        <option>6-Reconocimiento</option>
+      </select>
+      <div class="invalid-feedback">
+        Por favor seleccione un dato válido.
+      </div>
+    </div>
+    <div class="col-sm-6 mb-3">
+      <label for="via" class="form-label">Via</label>
+      <select class="form-select" id="via" name="via" required>
+        <option value="">Elegir...</option>
+        <option>1-Carta</option>
+        <option>2-Entrevista</option>
+        <option>3-Telefono</option>
+      </select>
+      <div class="invalid-feedback">
+        Por favor seleccione un dato válido.
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 mb-3">
+      <label for="procedencia" class="form-label">Procedencia</label>
+      <select class="form-select" id="procedencia" name="procedencia" required>
+        <option value="">Elegir...</option>
+        <option>1-MINSAP</option>
+        <option>2-PCC</option>
+        <option>3-APPP</option>
+        <option>4-Directo al Sectorial</option>
+        <option>5-Otros</option>
+      </select>
+      <div class="invalid-feedback">
+        Por favor seleccione un dato válido.
+      </div>
+    </div>
+    <div class="col-sm-6 mb-3">
+      <label for="clasificacion" class="form-label">Clasificación</label>
+      <select class="form-select" id="clasificacion" name="clasificacion" required>
+        <option value="">Elegir...</option>
+        <option>1-Asistencia Medica</option>
+        <option>2-APS y Enfermeria</option>
+        <option>3-Por Fallecimiento</option>
+        <option>4-Higiene</option>
+        <option>5-Medicina Optica y Audicion</option>
+        <option>6-Asistencia Social</option>
+        <option>7-Docencia</option>
+        <option>8-Laborales</option>
+        <option>9-Problemas Administrativos</option>
+        <option>10-Ambulancia</option>
+        <option>11-Solicitud de RH y Materiales</option>
+        <option>12-Construccion y Mantenimiento</option>
+        <option>13-Tratos</option>
+        <option>14-Condiciones de Trabajo</option>
+        <option>15-Vivienda</option>
+        <option>16-Salida del Pais</option>
+        <option>17-Otros</option>
+      </select>
+      <div class="invalid-feedback">
+         Por favor seleccione un dato válido.
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 mb-3">
+      <label for="casoPrensa" class="form-label">Caso Prensa</label>
+      <select class="form-select" id="casoPrensa" name="casoPrensa" required>
+        <option value="">Elegir...</option>
+        <option>1-No</option>
+        <option>2-Plataforma Bienestar</option>
+        <option>3-Periodico Granma</option>
+      </select>
+      <div class="invalid-feedback">
+        Por favor seleccione un dato válido.
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 mb-3">
+      <label for="fechaR" class="form-label">Fecha</label>
+      <input type="datetime-local" class="form-control" id="fechaR" name="fechaR">
+      <div class="invalid-feedback">
+        Por favor seleccione una fecha.
+      </div>
+    </div>
+  </div>
+
+  <button class="w-50 btn btn-primary btn-lg mx-auto d-block" type="submit" style="margin-bottom: 30px">Insertar</button>
+</form>
+
 
 {% endblock %}
