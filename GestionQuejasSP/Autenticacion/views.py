@@ -28,7 +28,7 @@ def logear(request):
             error_message='Credenciales Invalidas'
     else:
         error_message=None
-    return render(request,'Autenticacion/login.html',{'error_message':error_message})
+    return render(request,'Autenticacion/login.html')
 
 
 

@@ -172,21 +172,7 @@
         <form class="needs-validation" novalidate method="POST">
   {% csrf_token %}
 
-            {% if error_message %}
-    <p class="alert alert-danger" role="alert">{{ error_message }}</p>
-{% endif %}
-
-{% if form.errors %}
-    <ul>
-    {% for field_errors in form.errors.values %}
-        {% for error in field_errors %}
-            <li class="alert alert-danger" role="alert">{{ error }}</li>
-        {% endfor %}
-    {% endfor %}
-    </ul>
-{% endif %}
-
-  <div class="row">
+   <div class="row">
     <div class="col-sm-6 mb-3">
       <label for="nombre_apellidos" class="form-label">Nombre y Apellidos</label>
       <input type="text" class="form-control" id="nombre_apellidos" name="nombre_apellidos" placeholder="" value="" required>
@@ -205,7 +191,7 @@
         <option>5-Vicedireccion General</option>
       </select>
       <div class="invalid-feedback">
-         Por favor seleccione un dato válido.
+        Por favor seleccione un dato válido.
       </div>
     </div>
     <div class="col-12 col-lg-6 mb-3">
@@ -272,7 +258,7 @@
         <option>17-Otros</option>
       </select>
       <div class="invalid-feedback">
-         Por favor seleccione un dato válido.
+        Por favor seleccione un dato válido.
       </div>
     </div>
     <div class="col-12 col-lg-6 mb-3">
@@ -298,6 +284,33 @@
 
   <button class="w-50 btn btn-primary btn-lg mx-auto d-block" type="submit" style="margin-bottom: 30px">Insertar</button>
 </form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script>
+  // Seleccionar el formulario
+  var form = document.querySelector('.needs-validation');
 
+  // Agregar un escuchador de eventos al formulario
+  form.addEventListener('submit', function(event) {
+    // Si el formulario no es válido, prevenir la acción por defecto del botón de enviar
+    if (!form.checkValidity()) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    // Validación del campo Fecha de registro
+    var fechaR = document.getElementById('fechaR');
+    if (fechaR.value) {
+      var isValidDate = moment(fechaR.value, 'DD/MM/YYYY', true).isValid();
+      if (!isValidDate) {
+        fechaR.classList.add('is-invalid');
+      } else {
+        fechaR.classList.remove('is-invalid');
+      }
+    }
+
+    // Agregar la clase "was-validated" al formulario
+    form.classList.add('was-validated');
+  });
+</script>
 
 {% endblock %}

@@ -93,10 +93,11 @@
       }
     </style>
 
-
+{% load static %}
 
     <!-- Custom styles for this template -->
     <link href="{% static 'Autenticacion/login/css/sign-in.css' %}" rel="stylesheet">
+
   </head>
   <body class="text-center">
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -159,33 +160,73 @@
     {% if error_message %}
     <div style="" class="alert alert-danger" role="alert">{{ error_message }}</div>
     {% endif %}
-  <form method="post" action="">
-      {% csrf_token %}
+  <form method="post" action="" id="login-form">
+  {% csrf_token %}
 
-    <img class="mb-4" src="{% static 'Autenticacion/login/img/salud2.png' %}" alt="" width="170" height="170">
-    <h1 class="" style="color:white">¡Bienvenido!</h1>
+  <img class="mb-4" src="{% static 'Autenticacion/login/img/salud2.png' %}" alt="" width="170" height="170">
+  <h1 class="" style="color:white">¡Bienvenido!</h1>
 
-    <div class="form-floating">
+  <div class="form-floating">
+    <input type="text" class="form-control" id="floatingInput" name="username" placeholder=" " required>
+    <label for="floatingInput">Usuario</label>
+  </div>
 
-      <input type="text" class="form-control" id="floatingInput" name="username" placeholder=" " >
-      <label for="floatingInput">Usuario</label>
-    </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
-      <label for="floatingPassword">Contraseña</label>
-    </div>
+  <div class="form-floating">
+    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
+    <label for="floatingPassword">Contraseña</label>
+  </div>
 
+  <div class="checkbox mb-3" style="color: white">
+    <label>
+      <input type="checkbox" name="remember-me" value="1"> Recordarme
+    </label>
+  </div>
 
+  <button class="w-100 btn btn-lg btn-primary" type="submit" id="login-button">Iniciar Sesión</button>
+  <p class="mt-5 mb-3 text-body-secondary">&copy; 2023</p>
+</form>
 
+<script>
+  // Obtener el formulario y el botón de envío
+  var form = document.getElementById('login-form');
+  var button = document.getElementById('login-button');
 
-    <div class="checkbox mb-3" style="color: white">
-      <label>
-        <input type="checkbox" value="remember-me"> Recordarme
-      </label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Iniciar Sesión</button>
-    <p class="mt-5 mb-3 text-body-secondary">&copy; 2023</p>
-  </form>
+  // Agregar un controlador de eventos para el envío del formulario
+  form.addEventListener('submit', function(event) {
+    // Verificar si el formulario es válido
+    if (!form.checkValidity()) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    // Agregar la clase "was-validated" al formulario
+    form.classList.add('was-validated');
+  });
+
+  // Agregar un controlador de eventos para restablecer la validación cuando se modifica un campo
+  form.addEventListener('change', function(event) {
+    if (event.target.name === 'username' || event.target.name === 'password') {
+      event.target.classList.remove('is-invalid');
+      event.target.classList.remove('is-valid');
+      event.target.parentNode.querySelector('.invalid-feedback').textContent = '';
+    }
+  });
+
+  // Agregar un controlador de eventos para la validación de los campos de entrada
+  form.addEventListener('input', function(event) {
+    if (event.target.name === 'username' || event.target.name === 'password') {
+      if (event.target.checkValidity()) {
+        event.target.classList.remove('is-invalid');
+        event.target.classList.add('is-valid');
+        event.target.parentNode.querySelector('.invalid-feedback').textContent = '';
+      } else {
+        event.target.classList.remove('is-valid');
+        event.target.classList.add('is-invalid');
+        event.target.parentNode.querySelector('.invalid-feedback').textContent = 'Este campo es obligatorio.';
+      }
+    }
+  });
+</script>
 </main>
 
 

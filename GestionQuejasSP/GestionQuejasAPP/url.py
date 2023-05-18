@@ -13,7 +13,7 @@ urlpatterns = [
     path('eliminar_ultima_queja/', eliminar_ultima_queja, name='eliminar_ultima_queja'),
     path('buscarQ/',buscarQ,name="buscarQ"),
     #Gestionar Respuesta
-    path('insertar_respuesta/',insertar_respuesta,name="insertar_respuesta"),
+    path('insertar_respuesta/',insertar_respuesta, name='insertar_respuesta'),
     path('modificarR/', modificarR, name="modificarR"),
     path('eliminarR/', eliminarR, name="eliminarR"),
     path('buscarR/', buscarR, name="buscarR"),
