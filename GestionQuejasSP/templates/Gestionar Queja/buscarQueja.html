@@ -169,7 +169,7 @@
 
 
          <!-- Formulario -->
-        <form class="needs-validation" novalidate method="POST">
+        <form  method="GET">
   {% csrf_token %}
 
             {% if error_message %}
@@ -188,8 +188,8 @@
 
   <div class="row">
           <div class="col-sm-6 mb-3">
-      <label for="num">Numero:</label>
-    <input type="text" class="form-control" id="num" name="num" value="{{ request.GET.numero}}">
+      <label for="numero">Numero:</label>
+    <input type="text" class="form-control" id="numero" name="numero" value="{{ request.GET.numero}}">
     </div>
     <div class="col-sm-6 mb-3">
       <label for="nombre_apellidos">Nombre y apellidos:</label>
@@ -271,16 +271,59 @@
       </select>
     </div>
     <div class="col-12 col-lg-6 mb-3">
-      <label for="fechaR">Fecha Desde:</label>
+      <label for="fechaR_desde">Fecha Desde:</label>
       <input type="datetime-local" class="form-control" id="fechaR_desde" name="fechaR_desde" value="{{ request.GET.fechaR_desde }}">
     </div>
        <div class="col-12 col-lg-6 mb-3">
-      <label for="fechaR">Fecha Hasta:</label>
+      <label for="fechaR_hasta">Fecha Hasta:</label>
       <input type="datetime-local" class="form-control" id="fechaR_hasta" name="fechaR_hasta" value="{{ request.GET.fechaR_hasta}}">
     </div>
   </div>
 
   <button class="w-50 btn btn-primary btn-lg mx-auto d-block" type="submit" style="margin-bottom: 30px">Buscar</button>
 </form>
+
+
+        {% if quejas %}
+    <h2>Resultados de la búsqueda:</h2>
+     <table class="table table-striped table-sm table-bordered" id="mi-tabla">
+        <thead>
+            <tr>
+                <th>Número</th>
+                <th>Nombre y apellidos</th>
+                <th>Entidad afectada</th>
+                <th>Modalidad</th>
+                <th>Vía de ingreso</th>
+                <th>Procedencia</th>
+                <th>Clasificación</th>
+                <th>Caso en prensa</th>
+                <th>Fecha de registro</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for queja in quejas %}
+                <tr>
+                    <td>{{ queja.numero }}</td>
+                    <td>{{ queja.nombre_apellidos }}</td>
+                    <td>{{ queja.entidadAfectada }}</td>
+                    <td>{{ queja.modalidad }}</td>
+                    <td>{{ queja.via }}</td>
+                    <td>{{ queja.procedencia }}</td>
+                    <td>{{ queja.clasificacion }}</td>
+                    <td>{{ queja.casoPrensa }}</td>
+                    <td>{{ queja.fechaR }}</td>
+                     <td>
+        {% if queja.pk %}
+        <a href="{% url 'modificarQ_with_numero' numero=queja.pk %}" class="btn btn-primary btn-sm">Editar</a>
+        {% endif %}
+      </td>
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No se encontraron quejas.</p>
+{% endif %}
 
       {% endblock %}

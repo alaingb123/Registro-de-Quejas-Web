@@ -67,7 +67,7 @@ def insertar_respuesta(request):
             print(form.errors)  # mostrar errores de validación del formulario
     else:
         form = RespuestaForm()
-    return render(request, 'InsertarRespuesta.html', {'form': form})
+    return render(request, 'Gestionar Respuesta/insertarRespuesta.html', {'form': form})
 
 @login_required(login_url='login')
 def modificarQ(request, numero):
@@ -202,7 +202,7 @@ def buscarQ(request):
         if numero:
             quejas = quejas.filter(numero__icontains=numero)
 
-    return render(request, 'buscarQueja.html.', {'quejas': quejas})
+    return render(request, 'Gestionar Queja/buscarQueja.html', {'quejas': quejas})
 
 
 def ir_a_administracion(request):
