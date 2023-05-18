@@ -286,7 +286,7 @@
 
         {% if quejas %}
     <h2>Resultados de la búsqueda:</h2>
-    <table class="table">
+     <table class="table table-striped table-sm table-bordered" id="mi-tabla">
         <thead>
             <tr>
                 <th>Número</th>
@@ -312,7 +312,13 @@
                     <td>{{ queja.clasificacion }}</td>
                     <td>{{ queja.casoPrensa }}</td>
                     <td>{{ queja.fechaR }}</td>
+                     <td>
+        {% if queja.pk %}
+        <a href="{% url 'modificarQ_with_numero' numero=queja.pk %}" class="btn btn-primary btn-sm">Editar</a>
+        {% endif %}
+      </td>
                 </tr>
+
             {% endfor %}
         </tbody>
     </table>
