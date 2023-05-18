@@ -284,7 +284,7 @@
 
     <div class="col-12 col-lg-6 mb-3">
       <label for="fechaR" class="form-label">Fecha:</label>
-      <input type="datetime-local" class="form-control" id="fechaR" name="fechaR" value="{{ queja.fechaR}}" required >
+      <input type="datetime-local" class="form-control" id="fechaR" name="fechaR" value="{{ queja.fechaR | date:'Y-m-d\TH:i' }}" required>
       <div class="invalid-feedback">
         Por favor seleccione una fecha.
       </div>
