@@ -300,7 +300,7 @@
     // Validación del campo Fecha de registro
     var fechaR = document.getElementById('fechaR');
     if (fechaR.value) {
-      var isValidDate = moment(fechaR.value, 'DD/MM/YYYY', true).isValid();
+      var isValidDate = moment(fechaR.value, 'DD/MM/YYYY --:-- --', true).isValid();
       if (!isValidDate) {
         fechaR.classList.add('is-invalid');
       } else {

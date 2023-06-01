@@ -9,10 +9,20 @@ from datetime import datetime
 from django.db.models import Q
 from django.urls import reverse
 from django.views.decorators.http import require_POST, require_http_methods
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.models import Group
+from django.contrib.auth.models import User
 
 
 # Create your views here.
-@login_required(login_url='login')
+@login_required
+def user_in_group(request):
+    usuario=request.user
+    group = Group.objects.get(name='Funcionario')
+    return True if group in usuario.groups.all() else False
+
+
+@login_required
 def dash(request):
     # Obtener el año actual
     current_year = datetime.now().year
@@ -37,7 +47,7 @@ def dash(request):
 
 
 #Gestionar Queja
-@login_required(login_url='login')
+
 def InsertarQueja(request):
     error_message = ''
     if request.method == 'POST':
@@ -56,7 +66,6 @@ def InsertarQueja(request):
 
 
 
-@login_required(login_url='login')
 def modificarQ(request, numero):
     # Obtener la queja que se va a editar
     queja = get_object_or_404(Queja, id=numero)
@@ -79,7 +88,7 @@ def modificarQ(request, numero):
 
     return render(request, 'Gestionar Queja/editarQueja.html', {'form': form, 'queja': queja})
 
-@login_required(login_url='login')
+@login_required
 def buscarQ(request):
     quejas = None
     if request.GET:
@@ -128,7 +137,6 @@ def buscarQ(request):
 
     return render(request, 'Gestionar Queja/buscarQueja.html', {'quejas': quejas})
 
-@login_required(login_url='login')
 def eliminar_ultima_queja(request):
     ultima_queja = Queja.objects.last() # Obtiene la última queja
     ultima_queja.delete() # Elimina la última queja
@@ -136,7 +144,6 @@ def eliminar_ultima_queja(request):
 
 #Gestionar Respuesta
 
-@login_required(login_url='login')
 def insertar_respuesta(request):
     # if request.method == 'POST':
     #     form = RespuestaForm(request.POST)
@@ -152,13 +159,13 @@ def insertar_respuesta(request):
     #     form = RespuestaForm()
     return render(request, 'Gestionar Respuesta/insertarRespuesta.html')
 
-@login_required(login_url='login')
+
 def modificarR(request):
     return render(request,'Gestionar Respuesta/modificarRespuesta.html')
-@login_required(login_url='login')
+
 def eliminarR(request):
     return render(request,'Gestionar Respuesta/eliminarRespuesta.html')
-@login_required(login_url='login')
+
 def buscarR(request):
     return render(request,'Gestionar Respuesta/BuscarRespuesta.html')
 
@@ -167,6 +174,7 @@ def buscarR(request):
 #Otras
 
 
+@login_required
 def vista_filtrar_quejas_sin_respuestas(request):
     form = FiltroQuejasForm(request.GET or None)
     queja_id = None
@@ -197,7 +205,7 @@ def vista_filtrar_quejas_sin_respuestas(request):
 
     return render(request, 'dashboard/dash.html', context)
 
-
+@login_required
 def seleccionar_queja(request):
     # Recuperar todas las quejas del año actual de la base de datos
     year = datetime.date.today().year
@@ -215,7 +223,7 @@ def seleccionar_queja(request):
 
 
 
-@login_required(login_url='login')
+@login_required
 def acercaDe(request):
     return render(request,'acerca de.html')
 
@@ -224,3 +232,6 @@ def acercaDe(request):
 
 def ir_a_administracion(request):
     return redirect(reverse('admin:index'))
+
+def ValidacionPermisoRequeridMixi():
+    def dispacht (self,r)
