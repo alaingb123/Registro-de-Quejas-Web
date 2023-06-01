@@ -284,33 +284,28 @@
 
   <button class="w-50 btn btn-primary btn-lg mx-auto d-block" type="submit" style="margin-bottom: 30px">Insertar</button>
 </form>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
-  // Seleccionar el formulario
-  var form = document.querySelector('.needs-validation');
+  const nombreApellidosInput = document.getElementById('nombre_apellidos');
+const nombreApellidosRegex = /^[A-Z][a-zA-Z]{2,}(\s+[A-Z][a-zA-Z]{2,})*$/;
 
-  // Agregar un escuchador de eventos al formulario
-  form.addEventListener('submit', function(event) {
-    // Si el formulario no es válido, prevenir la acción por defecto del botón de enviar
-    if (!form.checkValidity()) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+nombreApellidosInput.addEventListener('input', function(e) {
+  if (!nombreApellidosRegex.test(e.target.value)) {
+    nombreApellidosInput.setCustomValidity('Por favor introduzca un Nombre y Apellido válido con al menos 3 letras.');
+  } else {
+    nombreApellidosInput.setCustomValidity('');
+  }
+});
 
-    // Validación del campo Fecha de registro
-    var fechaR = document.getElementById('fechaR');
-    if (fechaR.value) {
-      var isValidDate = moment(fechaR.value, 'DD/MM/YYYY --:-- --', true).isValid();
-      if (!isValidDate) {
-        fechaR.classList.add('is-invalid');
-      } else {
-        fechaR.classList.remove('is-invalid');
-      }
-    }
-
-    // Agregar la clase "was-validated" al formulario
-    form.classList.add('was-validated');
-  });
+const form = document.querySelector('form');
+form.addEventListener('submit', function(e) {
+  if (!form.checkValidity()) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  form.classList.add('was-validated');
+});
 </script>
 
 {% endblock %}

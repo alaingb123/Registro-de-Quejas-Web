@@ -48,6 +48,7 @@ def dash(request):
 
 #Gestionar Queja
 
+
 def InsertarQueja(request):
     error_message = ''
     if request.method == 'POST':
@@ -233,5 +234,5 @@ def acercaDe(request):
 def ir_a_administracion(request):
     return redirect(reverse('admin:index'))
 
-def ValidacionPermisoRequeridMixi():
-    def dispacht (self,r)
+# def ValidacionPermisoRequeridMixi():
+#     def dispacht (self,r)
