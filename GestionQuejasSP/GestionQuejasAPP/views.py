@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect,get_object_or_404
 from .forms import QuejaForm,RespuestaForm,FiltroQuejasForm,BuscadorQuejasForm
-from .models import Queja
+from .models import Queja, Respuesta
 from datetime import datetime
 from django.db.models import Q
 from django.urls import reverse
@@ -146,23 +146,56 @@ def eliminar_ultima_queja(request):
 #Gestionar Respuesta
 
 def insertar_respuesta(request):
-    # if request.method == 'POST':
-    #     form = RespuestaForm(request.POST)
-    #     if form.is_valid():
-    #         respuesta = form.save(commit=False)
-    #         respuesta.queja = Queja.objects.get(id=queja_id)
-    #         respuesta.save()
-    #         # hacer algo después de guardar la respuesta
-    #         return redirect('dash')
-    #     else:
-    #         print(form.errors)  # mostrar errores de validación del formulario
-    # else:
-    #     form = RespuestaForm()
-    return render(request, 'Gestionar Respuesta/insertarRespuesta.html')
+    # Obtener el año actual
+    current_year = datetime.now().year
+
+    # Filtrar las quejas sin respuesta y por año
+    quejas = Queja.objects.filter(respuesta__isnull=True, fechaR__year=current_year)
+
+    if request.method == 'POST':
+        form = RespuestaForm(request.POST)
+        if form.is_valid():
+            # Guardar la respuesta nueva
+            respuesta = form.save(commit=False)
+            respuesta.save()
+            return redirect('dash')
+    else:
+        form = RespuestaForm()
+
+    context = {
+        'quejas': quejas,
+        'form': form,
+    }
+    return render(request, 'Gestionar Respuesta/insertarRespuesta.html', context)
 
 
 def modificarR(request):
-    return render(request,'Gestionar Respuesta/modificarRespuesta.html')
+    if request.method == 'POST':
+        respuesta_id = request.POST.get('respuesta_id')
+        respuesta = get_object_or_404(Respuesta, id=respuesta_id)
+        form = RespuestaForm(request.POST, request.FILES, instance=respuesta)
+        if form.is_valid():
+            form.save()
+            return redirect('dash')
+    else:
+        form = RespuestaForm()
+
+    # Filtrar las quejas con respuesta por año
+    anio_actual = datetime.now().year
+    quejas = Queja.objects.filter(respuesta__isnull=False, respuesta__fecha_creacion__year=anio_actual).distinct()
+
+    # Configurar el campo 'queja' para mostrar solo las quejas con respuesta y por año
+    form.fields['queja'].queryset = quejas
+    form.fields['queja'].label = 'Selecciona una queja'
+    form.fields['queja'].empty_label = None
+
+    context = {
+        'form': form,
+        'titulo': 'Editar respuesta',
+        'boton': 'Guardar',
+    }
+
+    return render(request, 'Gestionar Respuesta/modificarRespuesta.html', context)
 
 def eliminarR(request):
     return render(request,'Gestionar Respuesta/eliminarRespuesta.html')
@@ -204,7 +237,7 @@ def vista_filtrar_quejas_sin_respuestas(request):
         'queja_id': queja_id,
     }
 
-    return render(request, 'dashboard/dash.html', context)
+    return render(request, 'Gestionar Respuesta/insertarRespuesta.html', context)
 
 @login_required
 def seleccionar_queja(request):

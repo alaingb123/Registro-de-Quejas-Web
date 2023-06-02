@@ -174,20 +174,23 @@
   {% csrf_token %}
 
   <div class="mb-3">
-    <label for="queja1" class="form-label">Queja:</label>
-    <select class="form-select" id="queja1" name="queja1" required>
+    <label for="numero" class="form-label">Queja:</label>
+    <select class="form-select" id="numero" name="numero" required>
       <option value="">Elegir una Queja...</option>
       {% for queja in quejas %}
-        <option value="{{ queja.id }}">{{ queja.asunto }}</option>
+        <option value="{{ queja.id }}">{{ queja }}</option>
+      {% empty %}
+        <option disabled>No hay quejas disponibles</option>
       {% endfor %}
     </select>
   </div>
 
+
   <div class="row">
     <div class="col-md-6">
       <div class="mb-3">
-        <label for="resp" class="form-label">Responsable:</label>
-        <input type="text" class="form-control" id="resp" name="resp" placeholder="" value="" required>
+        <label for="responsable" class="form-label">Responsable:</label>
+        <input type="text" class="form-control" id="responsable" name="responsable" placeholder="" value="" required>
         <div class="invalid-feedback">
           Por favor introduzca su nombre y apellido.
         </div>
@@ -205,8 +208,8 @@
         </div>
       </div>
       <div class="mb-3">
-        <label for="conclu" class="form-label">Conclusiones:</label>
-        <select class="form-select" id="conclu" name="conclu" required>
+        <label for="conclusion" class="form-label">Conclusiones:</label>
+        <select class="form-select" id="conclusion" name="conclusion" required>
           <option value="">Elegir...</option>
           <option>1-Con razon</option>
           <option>2-Con razon en parte</option>
@@ -219,7 +222,7 @@
       <div class="mb-3">
         <label class="form-check-label">Entregado</label>
         <div class="form-check">
-          <input type="checkbox" class="form-check-input" name="entregado">
+          <input type="checkbox" class="form-check-input" name="entrega">
         </div>
       </div>
       <div class="mb-3">
@@ -244,7 +247,7 @@
   <button class="w-50 btn btn-primary btn-lg mx-auto d-block" type="submit" style="margin-bottom: 30px;">Insertar</button>
 
   <script>
-    const entregadoCheckbox = document.querySelector('input[name="entregado"]');
+    const entregadoCheckbox = document.querySelector('input[name="entrega"]');
     const fechaEntregaInput = document.querySelector('input[name="fechaE"]');
 
     // Si el checkbox de entregado está seleccionado, hacer que la fecha de entrega sea obligatoria
