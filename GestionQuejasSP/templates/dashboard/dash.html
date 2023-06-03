@@ -41,62 +41,74 @@
       <th scope="col">Satisfacción</th>
       <th scope="col">Conclusión</th>
       <th scope="col">Fecha de Registro</th>
-            {% for group in user.groups.all %}
-
-
-{% if "Funcionario" == group.name or "ViceDirectora" == group.name %}
-      <th scope="col">Acciones</th>
-      {%endif%}
-      {%endfor%}
+      {% for group in user.groups.all %}
+        {% if "Funcionario" == group.name or "ViceDirectora" == group.name %}
+          <th scope="col">Editar</th>
+        {% endif %}
+      {% endfor %}
+      <th scope="col">Eliminar Respuesta</th> <!-- Columna adicional para eliminar la respuesta -->
     </tr>
   </thead>
   <tbody>
     {% for queja in quejas %}
-    <tr>
-      <td>{{ queja.numero }}</td>
-      <td>{{ queja.nombre_apellidos }}</td>
-      <td>{{ queja.entidadAfectada }}</td>
-      <td>{{ queja.modalidad }}</td>
-      <td>{{ queja.via }}</td>
-      <td>{{ queja.procedencia }}</td>
-      <td>{{ queja.clasificacion }}</td>
-      <td>{{ queja.casoPrensa }}</td>
-      {% if queja.respuesta %}
-      <td>{{ queja.respuesta.entrega }}</td>
-      <td>{{ queja.respuesta.satisfaccion }}</td>
-      <td>{{ queja.respuesta.conclusion }}</td>
-      {% else %}
-      <td></td>
-      <td></td>
-      <td></td>
-      {% endif %}
-      <td>{{ queja.fechaR|date:"d/m" }}</td>
-      {% for group in user.groups.all %}
-
-
-{% if "Funcionario" == group.name or "ViceDirectora" == group.name %}
-   <td>
-  {% if queja.pk %}
-    <div class="dropdown">
-      <button class="dropbtn">Editar</button>
-      <div class="dropdown-content">
-        <a href="{% url 'modificarQ_with_numero' numero=queja.pk %}">Editar Queja</a>
+      <tr>
+        <td>{{ queja.numero }}</td>
+        <td>{{ queja.nombre_apellidos }}</td>
+        <td>{{ queja.entidadAfectada }}</td>
+        <td>{{ queja.modalidad }}</td>
+        <td>{{ queja.via }}</td>
+        <td>{{ queja.procedencia }}</td>
+        <td>{{ queja.clasificacion }}</td>
+        <td>{{ queja.casoPrensa }}</td>
         {% if queja.respuesta %}
-          <a href="{% url 'modificarR' numero=queja.respuesta.pk %}">Editar Respuesta</a>
+          <td>{{ queja.respuesta.entrega }}</td>
+          <td>{{ queja.respuesta.satisfaccion }}</td>
+          <td>{{ queja.respuesta.conclusion }}</td>
+        {% else %}
+          <td></td>
+          <td></td>
+          <td></td>
         {% endif %}
-      </div>
-    </div>
-  {% endif %}
-</td>
-
-        {%endif%}
-      {%endfor%}
-    </tr>
+        <td>{{ queja.fechaR|date:"d/m" }}</td>
+        {% for group in user.groups.all %}
+          {% if "Funcionario" == group.name or "ViceDirectora" == group.name %}
+            <td>
+              {% if queja.pk %}
+                <div class="dropdown">
+                  <button class="dropbtn">Editar</button>
+                  <div class="dropdown-content">
+                    <a href="{% url 'modificarQ_with_numero' numero=queja.pk %}">Editar Queja</a>
+                    {% if queja.respuesta %}
+                      <a href="{% url 'modificarR' numero=queja.respuesta.pk %}">Editar Respuesta</a>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endif %}
+            </td>
+          {% endif %}
+        {% endfor %}
+        {% if queja.respuesta %}
+          <td>
+         <form action="{% url 'eliminarR' numero=queja.respuesta.pk %}" method="POST" id="eliminarRespuestaForm">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm" id="eliminarRespuesta" onclick="mostrarConfirmacion()">Eliminar</button>
+            </form>
+          </td>
+        {% else %}
+          <td></td>
+        {% endif %}
+      </tr>
     {% endfor %}
   </tbody>
 </table>
 
-
+<script>
+function mostrarConfirmacion() {
+    if (confirm("¿Estás seguro de que deseas eliminar esta respuesta?")) {
+        document.getElementById("eliminarRespuestaForm").submit();
+    }
+}
+</script>
 
 <!--&lt;!&ndash; Ventana modal para confirmar la eliminación de una queja &ndash;&gt;-->
 <!--<div class="modal fade" id="eliminarQuejaModal" tabindex="-1" role="dialog" aria-labelledby="eliminarQuejaModalLabel" aria-hidden="true">-->

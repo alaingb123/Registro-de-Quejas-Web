@@ -180,8 +180,18 @@ def modificarR(request,numero):
         form = RespuestaForm(instance=respuesta)
     return render(request, 'Gestionar Respuesta/modificarRespuesta.html', {'form': form, 'respuesta': respuesta})
 
-def eliminarR(request):
-    return render(request,'Gestionar Respuesta/eliminarRespuesta.html')
+def eliminarR(request,numero):
+    # Buscamos la respuesta por su número
+    respuesta = get_object_or_404(Respuesta, numero=numero)
+
+    if request.method == 'POST':
+        # Si se ha enviado el formulario de confirmación, eliminamos la respuesta
+        respuesta.delete()
+        # Redirigimos a otra página, por ejemplo la lista de quejas
+        return redirect('dash')
+
+
+
 
 def buscarR(request):
     resultados = Respuesta.objects.all()

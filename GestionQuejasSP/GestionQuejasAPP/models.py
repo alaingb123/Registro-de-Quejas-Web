@@ -42,7 +42,7 @@ class Queja(models.Model):
 
 
 class Respuesta(models.Model):
-    numero=models.OneToOneField(Queja,on_delete=models.CASCADE)
+    numero=models.OneToOneField(Queja,on_delete=models.CASCADE,related_name='respuesta')
     responsable=models.CharField(max_length=50)
     descripcion=models.TextField(max_length=1000)
     entrega=models.BooleanField(default=False)

@@ -267,19 +267,7 @@
             </a>
           </li>
 
-{% for group in user.groups.all %}
 
-
-{% if "JefeDep" == group.name or  "ViceDirectora" == group.name %}
-            <li class="nav-item">
-            <a class="nav-link {% if request.path == '/dash/eliminarR/' %}active {% endif %} " href="{% url 'eliminarR' %}" style="background-color: rgba(238,245,250,0.11)">
-              <span data-feather="file-text" class="align-text-bottom"></span>
-              Eliminar Respuesta
-            </a>
-          </li>
-
- {%endif%}
-            {%endfor%}
 
             {% for group in user.groups.all %}
 
