@@ -12,6 +12,7 @@ from django.views.decorators.http import require_POST, require_http_methods
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 
 # Create your views here.
@@ -170,12 +171,17 @@ def insertar_respuesta(request):
 
 
 def modificarR(request,numero):
-    respuesta = get_object_or_404(Respuesta, numero=numero)
+    respuesta = get_object_or_404(Respuesta, numero_id=numero)
     if request.method == 'POST':
         form = ModificarRespuestaForm(request.POST, instance=respuesta)
         if form.is_valid():
             form.save()
             return redirect('dash')
+        else:
+            # Agregar mensajes de error a la variable 'messages'
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f'{field}: {error}')
     else:
         form = RespuestaForm(instance=respuesta)
     return render(request, 'Gestionar Respuesta/modificarRespuesta.html', {'form': form, 'respuesta': respuesta})

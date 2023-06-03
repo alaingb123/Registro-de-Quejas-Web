@@ -53,7 +53,7 @@ class ModificarRespuestaForm(forms.ModelForm):
 
     class Meta:
         model = Respuesta
-        fields = ['numero','responsable', 'descripcion', 'entrega', 'satisfaccion', 'conclusion', 'fechaE']
+        fields = ['responsable', 'descripcion', 'entrega', 'satisfaccion', 'conclusion', 'fechaE']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

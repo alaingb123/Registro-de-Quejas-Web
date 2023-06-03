@@ -167,11 +167,17 @@
 
       <div class="col-md-10 col-lg-8" style="position: absolute; left:20%">
 
-
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
          <!-- Formulario -->
         <form method="POST">
   {% csrf_token %}
-
+            
 
   <div class="row">
     <div class="col-md-6">
@@ -184,7 +190,7 @@
       </div>
       <div class="mb-3">
         <label for="satisfaccion" class="form-label">Satisfaccion:</label>
-        <select class="form-select" id="satisfaccion" name="satisfaccion" required>
+        <select class="form-select" id="satisfaccion" name="satisfaccion" required disabled>
           <option value="">Elegir...</option>
           <option {% if respuesta.satisfaccion == '1-Conforme' %}selected{% endif %}>1-Conforme</option>
           <option {% if respuesta.satisfaccion == '2-Conforme en parte' %}selected{% endif %}>2-Conforme en parte</option>
@@ -249,21 +255,20 @@
   });
 
   const entregadoCheckbox = document.querySelector('input[name="entrega"]');
+  const satisfaccionSelect = document.querySelector('select[name="satisfaccion"]');
   const fechaEntregaInput = document.querySelector('input[name="fechaE"]');
 
   // Si el checkbox de entregado está seleccionado, hacer que la fecha de entrega sea obligatoria
-  entregadoCheckbox.addEventListener('change', function() {
+ entregadoCheckbox.addEventListener('change', function() {
     if (this.checked) {
-      fechaEntregaInput.required = true;
+      satisfaccionSelect.disabled = false;
+      fechaEntregaInput.disabled = false;
     } else {
-      fechaEntregaInput.required = false;
+      satisfaccionSelect.disabled = true;
+      fechaEntregaInput.disabled = true;
     }
   });
 
-  // Si se selecciona una fecha de entrega, establecer el checkbox de entregado en true
-  fechaEntregaInput.addEventListener('change', function() {
-    entregadoCheckbox.checked = true;
-  });
 
   const form = document.querySelector('form');
   form.addEventListener('submit', function(e) {

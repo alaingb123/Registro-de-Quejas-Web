@@ -72,6 +72,7 @@ TEMPLATES = [
             ],
         },
     },
+
 ]
 
 WSGI_APPLICATION = 'GestionQuejasSP.wsgi.application'

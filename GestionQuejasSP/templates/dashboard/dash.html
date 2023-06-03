@@ -79,7 +79,7 @@
                   <div class="dropdown-content">
                     <a href="{% url 'modificarQ_with_numero' numero=queja.pk %}">Editar Queja</a>
                     {% if queja.respuesta %}
-                      <a href="{% url 'modificarR' numero=queja.respuesta.pk %}">Editar Respuesta</a>
+                      <a href="{% url 'modificarR' numero=queja.respuesta.numero_id %}">Editar Respuesta</a>
                     {% endif %}
                   </div>
                 </div>
