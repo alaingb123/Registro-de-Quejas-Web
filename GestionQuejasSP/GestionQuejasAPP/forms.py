@@ -36,13 +36,25 @@ class FiltroQuejasForm(forms.Form):
         print(choices)
 
 
-class BuscadorQuejasForm(forms.Form):
-    nombre_apellidos = forms.CharField(required=False)
-    entidadAfectada = forms.CharField(required=False)
-    modalidad = forms.CharField(required=False)
-    via = forms.CharField(required=False)
-    procedencia = forms.CharField(required=False)
-    clasificacion = forms.CharField(required=False)
-    casoPrensa = forms.CharField(required=False)
-    fechaR_desde = forms.DateField(required=False)
-    fechaR_hasta = forms.DateField(required=False)
+# class BuscadorQuejasForm(forms.Form):
+#     nombre_apellidos = forms.CharField(required=False)
+#     entidadAfectada = forms.CharField(required=False)
+#     modalidad = forms.CharField(required=False)
+#     via = forms.CharField(required=False)
+#     procedencia = forms.CharField(required=False)
+#     clasificacion = forms.CharField(required=False)
+#     casoPrensa = forms.CharField(required=False)
+#     fechaR_desde = forms.DateField(required=False)
+#     fechaR_hasta = forms.DateField(required=False)
+
+
+class ModificarRespuestaForm(forms.ModelForm):
+    satisfaccion = forms.CharField(max_length=50, required=False)
+
+    class Meta:
+        model = Respuesta
+        fields = ['numero','responsable', 'descripcion', 'entrega', 'satisfaccion', 'conclusion', 'fechaE']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['fechaE'].required = False

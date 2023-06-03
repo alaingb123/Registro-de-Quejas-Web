@@ -46,9 +46,9 @@ class Respuesta(models.Model):
     responsable=models.CharField(max_length=50)
     descripcion=models.TextField(max_length=1000)
     entrega=models.BooleanField(default=False)
-    satisfaccion=models.CharField(max_length=50)
-    conclusion=models.CharField(max_length=50)
-    fechaE=models.DateTimeField()
+    satisfaccion=models.CharField(max_length=50,blank=True)
+    conclusion=models.CharField(max_length=50,blank=True)
+    fechaE=models.DateTimeField(null=True)
     created=models.DateTimeField(auto_now_add=True)
     updated=models.DateTimeField(auto_now_add=True)
 

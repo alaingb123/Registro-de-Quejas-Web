@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixi
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect,get_object_or_404
-from .forms import QuejaForm,RespuestaForm,FiltroQuejasForm,BuscadorQuejasForm,ModificarRespuestaForm
+from .forms import QuejaForm,RespuestaForm,FiltroQuejasForm,ModificarRespuestaForm
 from .models import Queja, Respuesta
 from datetime import datetime
 from django.db.models import Q
@@ -153,7 +153,7 @@ def insertar_respuesta(request):
     quejas = Queja.objects.filter(respuesta__isnull=True, fechaR__year=current_year)
 
     if request.method == 'POST':
-        form = RespuestaForm(request.POST)
+        form = ModificarRespuestaForm(request.POST)
         if form.is_valid():
             # Guardar la respuesta nueva
             respuesta = form.save(commit=False)
@@ -184,7 +184,51 @@ def eliminarR(request):
     return render(request,'Gestionar Respuesta/eliminarRespuesta.html')
 
 def buscarR(request):
-    return render(request,'Gestionar Respuesta/BuscarRespuesta.html')
+    resultados = Respuesta.objects.all()
+
+    if 'numero' in request.GET and request.GET['numero']:
+        numero = request.GET['numero']
+        resultados = resultados.filter(numero__numero__icontains=numero)
+
+    if 'responsable' in request.GET and request.GET['responsable']:
+        responsable = request.GET['responsable']
+        resultados = resultados.filter(responsable__icontains=responsable)
+
+    if 'descripcion' in request.GET and request.GET['descripcion']:
+        descripcion = request.GET['descripcion']
+        resultados = resultados.filter(descripcion__icontains=descripcion)
+
+    if 'entrega' in request.GET and request.GET['entrega']:
+        entrega = request.GET['entrega']
+        resultados = resultados.filter(entregado__icontains=entrega)
+
+    if 'satisfaccion' in request.GET and request.GET['satisfaccion']:
+        satisfaccion = request.GET['satisfaccion']
+        resultados = resultados.filter(satisfaccion__icontains=satisfaccion)
+
+    if 'conclusion' in request.GET and request.GET['conclusion']:
+        conclusion = request.GET['conclusion']
+        resultados = resultados.filter(conclusiones__icontains=conclusion)
+
+    if 'fechaE' in request.GET and request.GET['fechaE']:
+        fechaE = request.GET['fechaE']
+        resultados = resultados.filter(fecha_entrega__icontains=fechaE)
+
+    # Combinar los filtros con Q para permitir búsquedas en varios campos
+    # de forma opcional
+    if 'q' in request.GET and request.GET['q']:
+        q = request.GET['q']
+        resultados = resultados.filter(
+            Q(numero__numero__icontains=q) |
+            Q(responsable__icontains=q) |
+            Q(descripcion__icontains=q) |
+            Q(entregado__icontains=q) |
+            Q(satisfaccion__icontains=q) |
+            Q(conclusiones__icontains=q) |
+            Q(fecha_entrega__icontains=q)
+        )
+
+    return render(request,'Gestionar Respuesta/BuscarRespuesta.html',{'resultados': resultados})
 
 
 

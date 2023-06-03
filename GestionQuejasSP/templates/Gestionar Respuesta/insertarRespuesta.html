@@ -170,7 +170,7 @@
 
 
          <!-- Formulario -->
-        <form method="POST" action="{% url 'insertar_respuesta'  %}">
+       <form method="POST" action="{% url 'insertar_respuesta'  %}">
   {% csrf_token %}
 
   <div class="mb-3">
@@ -197,7 +197,7 @@
       </div>
       <div class="mb-3">
         <label for="satisfaccion" class="form-label">Satisfaccion:</label>
-        <select class="form-select" id="satisfaccion" name="satisfaccion" required>
+        <select class="form-select" id="satisfaccion" name="satisfaccion" required disabled>
           <option value="">Elegir...</option>
           <option>1-Conforme</option>
           <option>2-Conforme en parte</option>
@@ -227,7 +227,7 @@
       </div>
       <div class="mb-3">
         <label for="fechaE" class="form-label">Fecha Entrega</label>
-        <input type="datetime-local" class="form-control" id="fechaE" name="fechaE">
+        <input type="datetime-local" class="form-control" id="fechaE" name="fechaE" required disabled>
         <div class="invalid-feedback">
           Por favor seleccione una fecha.
         </div>
@@ -263,17 +263,19 @@
 
   const entregadoCheckbox = document.querySelector('input[name="entrega"]');
   const fechaEntregaInput = document.querySelector('input[name="fechaE"]');
+  const conclusionSelect = document.querySelector('select[name="conclusion"]');
+  const satisfaccionSelect = document.querySelector('select[name="satisfaccion"]');
 
-  // Si el checkbox de entregado está seleccionado, hacer que la fecha de entrega sea obligatoria
   entregadoCheckbox.addEventListener('change', function() {
     if (this.checked) {
-      fechaEntregaInput.required = true;
+      satisfaccionSelect.disabled = false;
+      fechaEntregaInput.disabled = false;
     } else {
-      fechaEntregaInput.required = false;
+      satisfaccionSelect.disabled = true;
+      fechaEntregaInput.disabled = true;
     }
   });
 
-  // Si se selecciona una fecha de entrega, establecer el checkbox de entregado en true
   fechaEntregaInput.addEventListener('change', function() {
     entregadoCheckbox.checked = true;
   });
