@@ -247,23 +247,46 @@
   <button class="w-50 btn btn-primary btn-lg mx-auto d-block" type="submit" style="margin-bottom: 30px;">Insertar</button>
 
   <script>
-    const entregadoCheckbox = document.querySelector('input[name="entrega"]');
-    const fechaEntregaInput = document.querySelector('input[name="fechaE"]');
+  const responsableInput = document.getElementById('responsable');
+  const responsableRegex = /^[A-Z][a-z]+\s([A-Z][a-z]+\s?)*$/;
 
-    // Si el checkbox de entregado está seleccionado, hacer que la fecha de entrega sea obligatoria
-    entregadoCheckbox.addEventListener('change', function() {
-      if (this.checked) {
-        fechaEntregaInput.required = true;
-      } else {
-        fechaEntregaInput.required = false;
-      }
-    });
+  responsableInput.addEventListener('input', function(e) {
+    const value = e.target.value.trim();
+    if (value.length < 3) {
+      responsableInput.setCustomValidity('El responsable debe tener al menos 3 letras.');
+    } else if (!responsableRegex.test(value)) {
+      responsableInput.setCustomValidity('El responsable debe tener el formato correcto: la primera letra de cada palabra debe ser mayúscula y no deben contener números ni caracteres especiales.');
+    } else {
+      responsableInput.setCustomValidity('');
+    }
+  });
 
-    // Si se selecciona una fecha de entrega, establecer el checkbox de entregado en true
-    fechaEntregaInput.addEventListener('change', function() {
-      entregadoCheckbox.checked = true;
-    });
-  </script>
+  const entregadoCheckbox = document.querySelector('input[name="entrega"]');
+  const fechaEntregaInput = document.querySelector('input[name="fechaE"]');
+
+  // Si el checkbox de entregado está seleccionado, hacer que la fecha de entrega sea obligatoria
+  entregadoCheckbox.addEventListener('change', function() {
+    if (this.checked) {
+      fechaEntregaInput.required = true;
+    } else {
+      fechaEntregaInput.required = false;
+    }
+  });
+
+  // Si se selecciona una fecha de entrega, establecer el checkbox de entregado en true
+  fechaEntregaInput.addEventListener('change', function() {
+    entregadoCheckbox.checked = true;
+  });
+
+  const form = document.querySelector('form');
+  form.addEventListener('submit', function(e) {
+    if (!form.checkValidity()) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    form.classList.add('was-validated');
+  });
+</script>
 </form>
 
 

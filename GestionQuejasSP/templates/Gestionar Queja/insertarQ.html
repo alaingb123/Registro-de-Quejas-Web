@@ -169,7 +169,7 @@
 
 
          <!-- Formulario -->
-        <form class="needs-validation" novalidate method="POST">
+        <form  method="POST">
   {% csrf_token %}
 
    <div class="row">
@@ -283,10 +283,7 @@
   </div>
 
   <button class="w-50 btn btn-primary btn-lg mx-auto d-block" type="submit" style="margin-bottom: 30px">Insertar</button>
-</form>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<script>
+            <script>
   const nombreApellidosInput = document.getElementById('nombre_apellidos');
   const nombreApellidosRegex = /^[A-Z][a-zñáéíóú]+\s([A-Z][a-zñáéíóú]+\s?)*$/;
 
@@ -310,5 +307,9 @@
     form.classList.add('was-validated');
   });
 </script>
+        </form>
+
+
+
 
           {% endblock %}
