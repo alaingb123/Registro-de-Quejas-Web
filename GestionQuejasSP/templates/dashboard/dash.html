@@ -75,17 +75,28 @@
 
 
 {% if "Funcionario" == group.name or "ViceDirectora" == group.name %}
-      <td>
-        {% if queja.pk %}
-        <a href="{% url 'modificarQ_with_numero' numero=queja.pk %}" class="btn btn-primary btn-sm">Editar</a>
+   <td>
+  {% if queja.pk %}
+    <div class="dropdown">
+      <button class="dropbtn">Editar</button>
+      <div class="dropdown-content">
+        <a href="{% url 'modificarQ_with_numero' numero=queja.pk %}">Editar Queja</a>
+        {% if queja.respuesta %}
+          <a href="{% url 'modificarR' numero=queja.respuesta.pk %}">Editar Respuesta</a>
         {% endif %}
-      </td>
+      </div>
+    </div>
+  {% endif %}
+</td>
+
         {%endif%}
       {%endfor%}
     </tr>
     {% endfor %}
   </tbody>
 </table>
+
+
 
 <!--&lt;!&ndash; Ventana modal para confirmar la eliminación de una queja &ndash;&gt;-->
 <!--<div class="modal fade" id="eliminarQuejaModal" tabindex="-1" role="dialog" aria-labelledby="eliminarQuejaModalLabel" aria-hidden="true">-->
@@ -139,4 +150,52 @@
   </div>
 </main>
 
+<style>
+  .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  color: white;
+  background-color: #007bff;
+  padding: 4px 8px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  border-radius: .25rem;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 6px 0;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+</style>
+
+<script>
+function toggleSubmenu(quejaPk) {
+  var submenu = document.getElementById("submenu" + quejaPk);
+  if (submenu.style.display === "block") {
+    submenu.style.display = "none";
+  } else {
+    submenu.style.display = "block";
+  }
+}
+</script>
 {% endblock %}

@@ -14,7 +14,7 @@ urlpatterns = [
     path('buscarQ/',buscarQ,name="buscarQ"),
     #Gestionar Respuesta
     path('insertar_respuesta/',insertar_respuesta, name='insertar_respuesta'),
-    path('modificarR/', modificarR, name="modificarR"),
+    path('modificarR/<int:numero>/', modificarR, name="modificarR"),
     path('eliminarR/', eliminarR, name="eliminarR"),
     path('buscarR/', buscarR, name="buscarR"),
     #Acerca De
