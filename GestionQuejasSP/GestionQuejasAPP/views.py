@@ -13,6 +13,15 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.db.models.functions import ExtractMonth
+from django.db import models
+from django.db.models import Count
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+import json
+from django.db.models.functions import TruncMonth
+from django.utils import timezone
 
 
 # Create your views here.
@@ -312,3 +321,31 @@ def ir_a_administracion(request):
 
 # def ValidacionPermisoRequeridMixi():
 #     def dispacht (self,r)
+
+def informe(request):
+    # Obtener las quejas agrupadas por mes y entidad afectada
+    quejas = Queja.objects.annotate(mes=TruncMonth('fechaR')) \
+        .values('mes', 'entidadAfectada') \
+        .annotate(cantidad=Count('id')) \
+        .order_by('mes', 'entidadAfectada')
+
+    # Obtener la lista de entidades afectadas y meses únicos
+    entidades = quejas.values_list('entidadAfectada', flat=True).distinct()
+    meses = quejas.values_list('mes', flat=True).distinct()
+
+    # Crear una matriz para los valores de la gráfica
+    valores = []
+    for mes in meses:
+        fila = [0] * len(entidades)
+        for i, entidad in enumerate(entidades):
+            queja = quejas.filter(mes=mes, entidadAfectada=entidad).first()
+            if queja:
+                fila[i] = queja['cantidad']
+        valores.append(fila)
+
+    # Pasar los datos a la plantilla
+    return render(request, 'Gestionar Queja/resumen.html', {
+        'entidades': entidades,
+        'meses': meses,
+        'valores': valores,
+    })

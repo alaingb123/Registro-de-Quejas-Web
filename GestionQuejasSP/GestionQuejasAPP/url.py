@@ -1,5 +1,5 @@
 from django.urls import path,include
-from .views import dash,InsertarQueja,insertar_respuesta,modificarQ,eliminar_ultima_queja,buscarQ,modificarR,eliminarR,buscarR,acercaDe,vista_filtrar_quejas_sin_respuestas,ir_a_administracion
+from .views import dash,InsertarQueja,insertar_respuesta,modificarQ,eliminar_ultima_queja,buscarQ,modificarR,eliminarR,buscarR,acercaDe,vista_filtrar_quejas_sin_respuestas,ir_a_administracion,informe
 from django.contrib.auth.decorators import login_required
 
 
@@ -19,6 +19,7 @@ urlpatterns = [
     path('buscarR/', buscarR, name="buscarR"),
     #Acerca De
     path('acercaDe/', acercaDe, name="acercaDe"),
+    path('informe/', informe, name="informe"),
 
 
 

@@ -89,7 +89,7 @@
         {% endfor %}
         {% if queja.respuesta %}
           <td>
-         <form action="{% url 'eliminarR' numero=queja.respuesta.pk %}" method="POST" id="eliminarRespuestaForm">
+         <form action="{% url 'eliminarR' numero=queja.respuesta.numero_id %}" method="POST" id="eliminarRespuestaForm">
               {% csrf_token %}
               <button type="submit" class="btn btn-danger btn-sm" id="eliminarRespuesta" onclick="mostrarConfirmacion()">Eliminar</button>
             </form>
@@ -109,54 +109,6 @@ function mostrarConfirmacion() {
     }
 }
 </script>
-
-<!--&lt;!&ndash; Ventana modal para confirmar la eliminación de una queja &ndash;&gt;-->
-<!--<div class="modal fade" id="eliminarQuejaModal" tabindex="-1" role="dialog" aria-labelledby="eliminarQuejaModalLabel" aria-hidden="true">-->
-<!--  <div class="modal-dialog" role="document">-->
-<!--    <div class="modal-content">-->
-<!--      <div class="modal-header">-->
-<!--        <h5 class="modal-title" id="eliminarQuejaModalLabel">Eliminar Queja</h5>-->
-<!--        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">-->
-<!--          <span aria-hidden="true">&times;</span>-->
-<!--        </button>-->
-<!--      </div>-->
-<!--      <div class="modal-body">-->
-<!--        <p>¿Estás seguro de que quieres eliminar la queja?</p>-->
-<!--      </div>-->
-<!--      <div class="modal-footer">-->
-<!--        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>-->
-<!--        <button type="button" class="btn btn-danger" id="eliminarQuejaBoton">Eliminar</button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-
-<!--&lt;!&ndash; Código JavaScript para manejar la confirmación de eliminación &ndash;&gt;-->
-<!--<script>-->
-<!--$(document).ready(function() {-->
-<!--  $('#eliminarQuejaModal').on('show.bs.modal', function(event) {-->
-<!--    var button = $(event.relatedTarget); // Botón que abrió la ventana modal-->
-<!--    var quejaId = button.data('id'); // Extraer el ID de la queja de los datos del botón-->
-<!--    var modal = $(this);-->
-<!--    modal.find('#eliminarQuejaBoton').on('click', function() {-->
-<!--      var url = '/eliminarQ/' + quejaId + '/';-->
-<!--      $.ajax({-->
-<!--        url: url,-->
-<!--        type: 'DELETE',-->
-<!--        headers: {-->
-<!--          'X-CSRFToken': '{{ csrf_token }}' // Agrega la etiqueta de seguridad CSRF-->
-<!--        },-->
-<!--        success: function() {-->
-<!--          window.location.reload();-->
-<!--        },-->
-<!--        error: function() {-->
-<!--          alert('Error al eliminar la queja.');-->
-<!--        }-->
-<!--      });-->
-<!--    });-->
-<!--  });-->
-<!--});-->
-<!--</script>-->
 
     </div>
   </div>

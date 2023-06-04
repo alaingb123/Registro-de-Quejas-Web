@@ -1,181 +1,88 @@
 {% extends "base.html" %}
 
 {% load static %}
-
 {% block content %}
-
-
-  <meta charset="utf-8">
-
-  <!-- Estilos de Bootstrap -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
-  <!-- Librería Chart.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
-
-
-
-  <div class="container" style="margin-left: 200px; margin-top: -600px ">
-    <div class="row"  >
-      <div class="col-md-8 offset-md-2">
-        <canvas id="grafico"></canvas>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-8 offset-md-2">
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-secondary" onclick="actualizarGrafico('mes')">Por Mes</button>
-          <button type="button" class="btn btn-secondary" onclick="actualizarGrafico('entrega')">Por Estado de Entrega</button>
-          <button type="button" class="btn btn-secondary" onclick="actualizarGrafico('respuesta')">Por Estado de Respuesta</button>
-        </div>
-      </div>
+{% with meses|length as num_meses %}
+{% with entidades|length as num_entidades %}
+<div class="col-md-6">
+  <div class="container" style="margin-left: 300px">
+    <h1>Gráfica de quejas por entidad afectada y mes</h1>
+    <div class="text-center" >
+      <canvas id="grafico" style="width: 100%;"></canvas>
     </div>
   </div>
-
-
- <div id="informacion" class="container" style="margin-left: 300px; ; margin-top: -160px">
-     <div id="informacion" class="container">
-  <p>Total de quejas en todo el año: <span id="total"></span></p>
-  <p>Cantidad de quejas con respuesta: <span id="con_respuesta"></span></p>
-  <p>Cantidad de quejas sin respuesta: <span id="sin_respuesta"></span></p>
 </div>
- </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Obtener los datos de la vista
+  var entidades = [{% for entidad in entidades %}"{{ entidad }}"{% if not forloop.last %}, {% endif %}{% endfor %}];
+  var meses = [{% for mes in meses %}"{{ mes|date:'F Y' }}"{% if not forloop.last %}, {% endif %}{% endfor %}];
+  var valores = {{ valores|safe }};
 
-
-  <!-- Scripts personalizados -->
-  <script>
-
-      // Obtener el canvas del gráfico
-var ctx = document.getElementById('grafico');
-
-// Datos iniciales para el gráfico
-var data = {
-  labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-  datasets: [{
-    label: 'Quejas en Recursos Humanos',
-    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-    borderColor: 'rgba(54, 162, 235, 1)',
-    borderWidth: 1,
-    data: [0,0,0,0]
-  }, {
-    label: 'Quejas en Higiene y Epidemiologia',
-    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-    borderColor: 'rgba(255, 99, 132, 1)',
-    borderWidth: 1,
-    data: [0, 0,0, 0, 0]
-  }, {
-    label: 'Quejas en Asistencia Medica',
-    backgroundColor: 'rgba(255, 206, 86, 0.2)',
-    borderColor: 'rgba(255, 206, 86, 1)',
-    borderWidth: 1,
-    data: [0, 0, 0, 0, 0]
-  }, {
-    label: 'Quejas en Vicedireccion Economica',
-    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-    borderColor: 'rgba(75, 192, 192, 1)',
-    borderWidth: 1,
-    data: [0, 0, 0, 0, 0]
-  }, {
-    label: 'Quejas en Vicedireccion General',
-    backgroundColor: 'rgba(153, 102, 255, 0.2)',
-    borderColor: 'rgba(153, 102, 255, 1)',
-    borderWidth: 1,
-    data: [0, 0, 0, 0, 0]
-  }]
-};
-
-// Opciones iniciales para el gráfico
-var options = {
-  scales: {
-    yAxes: [{
-      ticks: {
-        beginAtZero: true
-      }
-    }]
-  },
-  tooltips: {
-    mode: 'index',
-    intersect: false
-  },
-  responsive: true,
-  legend: {
-    position: 'top',
-    display: true
-  }
-};
-
-// Crear el gráfico de barras inicial
-var grafico = new Chart(ctx, {
-  type: 'bar',
-  data: data,
-  options: options
-});
-
-// Función para actualizar el gráfico en función del botón que se presione
-function actualizarGrafico(opcion) {
-  switch (opcion) {
-      case 'mes':
-          grafico.data.labels = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-          grafico.data.datasets[0].data = [12, 19, 3, 5, 2, 3, 9, 10, 8, 5, 7, 11];
-          grafico.data.datasets[1].data = [5, 10, 15, 12, 8, 6, 11, 14, 9, 7, 13, 10];
-          grafico.data.datasets[2].data = [10, 5, 7, 8, 11, 4, 6, 9, 13, 8, 5, 12];
-          grafico.update();
-          break;
-
-      case 'entrega':
-          grafico.data.labels = ['Entregado', 'Pendiente', 'Devuelto'];
-          grafico.data.datasets[0].data = [20, 10, 5];
-          grafico.data.datasets[1].data = [15, 5, 8];
-          grafico.data.datasets[2].data = [7, 12, 9];
-          grafico.update();
-          break;
-
-      case 'respuesta':
-          grafico.data.labels = ['Con respuesta', 'Sin respuesta'];
-          grafico.data.datasets[0].data = [20, 10];
-          grafico.data.datasets[1].data = [15, 5];
-          grafico.data.datasets[2].data = [7, 12];
-          grafico.data.datasets[3].data = [0, 10];
-          grafico.data.datasets[3].data = [25, 0];
-          grafico.update();
-          break;
-      default:
-          console.log('Opción no válida');
-  }
-
-// Actualizar la información debajo del gráfico
-  actualizarInformacion();
-
-}
-
-// Actualizar la información debajo del gráfico
-function actualizarInformacion() {
-  var total = 0;
-  var con_respuesta = 0;
-  var sin_respuesta = 0;
-
-  // Sumar los valores de cada conjunto de datos
-  for (var i = 0; i < grafico.data.datasets.length; i++) {
-    for (var j = 0; j < grafico.data.datasets[i].data.length; j++) {
-      total += grafico.data.datasets[i].data[j];
-
-      if (i == 3) {
-        sin_respuesta += grafico.data.datasets[i].data[j];
-      } else {
-        con_respuesta += grafico.data.datasets[i].data[j];
+  // Crear la gráfica con los datos obtenidos
+  var ctx = document.getElementById('grafico').getContext('2d');
+  var datasets = [];
+  entidades.forEach(function(entidad, i) {
+    var datos_entidad = [];
+    meses.forEach(function(mes, j) {
+      var valor = valores[j][i];
+      datos_entidad.push(valor);
+    });
+    if (datos_entidad.reduce((a, b) => a + b, 0) > 0) {
+      datasets.push({
+        label: entidad,
+        data: datos_entidad,
+        backgroundColor: 'rgba(' + (i * 50) + ', ' + (255 - i * 50) + ', 132, 0.2)',
+        borderColor: 'rgba(' + (i * 50) + ', ' + (255 - i * 50) + ', 132, 1)',
+        borderWidth: 1
+      });
+    }
+  });
+  var chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: meses,
+      datasets: datasets
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          },
+          scaleLabel: {
+            display: true,
+            labelString: 'Cantidad de quejas'
+          }
+        }],
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Mes'
+          },
+          ticks: {
+            callback: function(value, index, values) {
+              if (index % {{ num_meses }} === 0) {
+                return value;
+              } else {
+                return '';
+              }
+            }
+          }
+        }]
+      },
+      tooltips: {
+        mode: 'index',
+        intersect: false
+      },
+      legend: {
+        display: true,
+        position: 'bottom'
       }
     }
-  }
-
-  // Actualizar los valores de los elementos HTML
-  document.getElementById('total').innerHTML = total;
-  document.getElementById('con_respuesta').innerHTML = con_respuesta;
-  document.getElementById('sin_respuesta').innerHTML = sin_respuesta;
-}
-
-  </script>
-
-
-
+  });
+</script>
+{% endwith %}
+{% endwith %}
 {% endblock %}
