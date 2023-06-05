@@ -5,17 +5,6 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 
 
-# Create your views here.
-
-# class VRegistro(View):
-# def get (self,request):
-#      form=UserCreationForm()
-#       return render(request,"Autenticacion/login.html",{"form":form})
-
-
-# def post (self,request):
-#    pass
-
 def logear(request):
     if (request.method == 'POST'):
         username = request.POST['username']
@@ -34,3 +23,14 @@ def logear(request):
 def cerrar_sesion(request):
     logout(request)
     return redirect('autenticacion')
+
+# Create your views here.
+#
+# class VRegistro(View):
+# def get (self,request):
+#      form=UserCreationForm()
+#       return render(request,"Autenticacion/login.html",{"form":form})
+#
+#
+# def post (self,request):
+#    pass
