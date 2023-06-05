@@ -5,12 +5,14 @@ from datetime import datetime
 from django import forms
 from .models import Queja
 
+
 class QuejaForm(forms.ModelForm):
     fechaR = forms.DateTimeField(widget=DateTimeInput(attrs={'type': 'datetime-local'}))
 
     class Meta:
         model = Queja
-        fields = ['nombre_apellidos', 'entidadAfectada', 'modalidad' , 'via', 'procedencia', 'clasificacion', 'casoPrensa', 'fechaR']
+        fields = ['nombre_apellidos', 'entidadAfectada', 'modalidad', 'via', 'procedencia', 'clasificacion',
+                  'casoPrensa', 'fechaR']
 
 
 class RespuestaForm(forms.ModelForm):
@@ -36,18 +38,6 @@ class FiltroQuejasForm(forms.Form):
         print(choices)
 
 
-# class BuscadorQuejasForm(forms.Form):
-#     nombre_apellidos = forms.CharField(required=False)
-#     entidadAfectada = forms.CharField(required=False)
-#     modalidad = forms.CharField(required=False)
-#     via = forms.CharField(required=False)
-#     procedencia = forms.CharField(required=False)
-#     clasificacion = forms.CharField(required=False)
-#     casoPrensa = forms.CharField(required=False)
-#     fechaR_desde = forms.DateField(required=False)
-#     fechaR_hasta = forms.DateField(required=False)
-
-
 class ModificarRespuestaForm(forms.ModelForm):
     satisfaccion = forms.CharField(max_length=50, required=False)
 
@@ -58,3 +48,14 @@ class ModificarRespuestaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['fechaE'].required = False
+
+# class BuscadorQuejasForm(forms.Form):
+#     nombre_apellidos = forms.CharField(required=False)
+#     entidadAfectada = forms.CharField(required=False)
+#     modalidad = forms.CharField(required=False)
+#     via = forms.CharField(required=False)
+#     procedencia = forms.CharField(required=False)
+#     clasificacion = forms.CharField(required=False)
+#     casoPrensa = forms.CharField(required=False)
+#     fechaR_desde = forms.DateField(required=False)
+#     fechaR_hasta = forms.DateField(required=False)

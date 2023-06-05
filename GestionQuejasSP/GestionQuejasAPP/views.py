@@ -1,33 +1,29 @@
-from django.shortcuts import render,HttpResponse
-from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
-from django.views.generic import TemplateView
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect,get_object_or_404
-from .forms import QuejaForm,RespuestaForm,FiltroQuejasForm,ModificarRespuestaForm
-from .models import Queja, Respuesta
-from datetime import datetime
-from django.db.models import Q
-from django.urls import reverse
-from django.views.decorators.http import require_POST, require_http_methods
-from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.models import Group
-from django.contrib.auth.models import User
-from django.contrib import messages
-from django.db.models.functions import ExtractMonth
-from django.db import models
-from django.db.models import Count
-import matplotlib.pyplot as plt
-from io import BytesIO
 import base64
 import json
-from django.db.models.functions import TruncMonth
+import matplotlib.pyplot as plt
+from datetime import datetime
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.models import Group, User
+from django.db import models
+from django.db.models import Count, Q
+from django.db.models.functions import ExtractMonth, TruncMonth
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from django.urls import reverse
 from django.utils import timezone
+from django.views.decorators.http import require_POST, require_http_methods
+from django.views.generic import TemplateView
+from io import BytesIO
+
+from .forms import QuejaForm, RespuestaForm, FiltroQuejasForm, ModificarRespuestaForm
+from .models import Queja, Respuesta
 
 
 # Create your views here.
 @login_required
 def user_in_group(request):
-    usuario=request.user
+    usuario = request.user
     group = Group.objects.get(name='Funcionario')
     return True if group in usuario.groups.all() else False
 
@@ -55,8 +51,7 @@ def dash(request):
     return render(request, 'dashboard/dash.html', context)
 
 
-
-#Gestionar Queja
+# Gestionar Queja
 
 
 def InsertarQueja(request):
@@ -74,7 +69,6 @@ def InsertarQueja(request):
     else:
         form = QuejaForm()
     return render(request, 'Gestionar Queja/insertarQ.html', {'form': form, 'error_message': error_message})
-
 
 
 def modificarQ(request, numero):
@@ -98,6 +92,7 @@ def modificarQ(request, numero):
         form = QuejaForm(instance=queja)
 
     return render(request, 'Gestionar Queja/editarQueja.html', {'form': form, 'queja': queja})
+
 
 @login_required
 def buscarQ(request):
@@ -148,12 +143,14 @@ def buscarQ(request):
 
     return render(request, 'Gestionar Queja/buscarQueja.html', {'quejas': quejas})
 
+
 def eliminar_ultima_queja(request):
-    ultima_queja = Queja.objects.last() # Obtiene la última queja
-    ultima_queja.delete() # Elimina la última queja
+    ultima_queja = Queja.objects.last()  # Obtiene la última queja
+    ultima_queja.delete()  # Elimina la última queja
     return redirect('dash')
 
-#Gestionar Respuesta
+
+# Gestionar Respuesta
 
 def insertar_respuesta(request):
     # Obtener el año actual
@@ -179,7 +176,7 @@ def insertar_respuesta(request):
     return render(request, 'Gestionar Respuesta/insertarRespuesta.html', context)
 
 
-def modificarR(request,numero):
+def modificarR(request, numero):
     respuesta = get_object_or_404(Respuesta, numero_id=numero)
     if request.method == 'POST':
         form = ModificarRespuestaForm(request.POST, instance=respuesta)
@@ -195,7 +192,8 @@ def modificarR(request,numero):
         form = RespuestaForm(instance=respuesta)
     return render(request, 'Gestionar Respuesta/modificarRespuesta.html', {'form': form, 'respuesta': respuesta})
 
-def eliminarR(request,numero):
+
+def eliminarR(request, numero):
     # Buscamos la respuesta por su número
     respuesta = get_object_or_404(Respuesta, numero=numero)
 
@@ -204,8 +202,6 @@ def eliminarR(request,numero):
         respuesta.delete()
         # Redirigimos a otra página, por ejemplo la lista de quejas
         return redirect('dash')
-
-
 
 
 def buscarR(request):
@@ -253,11 +249,10 @@ def buscarR(request):
             Q(fecha_entrega__icontains=q)
         )
 
-    return render(request,'Gestionar Respuesta/BuscarRespuesta.html',{'resultados': resultados})
+    return render(request, 'Gestionar Respuesta/BuscarRespuesta.html', {'resultados': resultados})
 
 
-
-#Otras
+# Otras
 
 
 @login_required
@@ -291,6 +286,7 @@ def vista_filtrar_quejas_sin_respuestas(request):
 
     return render(request, 'Gestionar Respuesta/insertarRespuesta.html', context)
 
+
 @login_required
 def seleccionar_queja(request):
     # Recuperar todas las quejas del año actual de la base de datos
@@ -308,16 +304,14 @@ def seleccionar_queja(request):
     return render(request, 'seleccionarQueja.html', {'quejas': quejas})
 
 
-
 @login_required
 def acercaDe(request):
-    return render(request,'acerca de.html')
-
-
+    return render(request, 'acerca de.html')
 
 
 def ir_a_administracion(request):
     return redirect(reverse('admin:index'))
+
 
 # def ValidacionPermisoRequeridMixi():
 #     def dispacht (self,r)
