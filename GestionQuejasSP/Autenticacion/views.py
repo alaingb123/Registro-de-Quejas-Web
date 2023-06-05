@@ -1,12 +1,9 @@
-from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
-from django.views.generic import View
 
 
 def logear(request):
-    if (request.method == 'POST'):
+    if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
@@ -23,13 +20,3 @@ def logear(request):
 def cerrar_sesion(request):
     logout(request)
     return redirect('autenticacion')
-
-
-class VRegistro(View):
-    def get (self,request):
-        form=UserCreationForm()
-        return render(request,"Autenticacion/login.html",{"form":form})
-
-
-def post (self,request):
-   pass

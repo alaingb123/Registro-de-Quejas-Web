@@ -1,23 +1,15 @@
-import base64
-import json
-import matplotlib.pyplot as plt
+
 from datetime import datetime
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.contrib.auth.models import Group, User
-from django.db import models
+from django.contrib.auth.models import Group
 from django.db.models import Count, Q
-from django.db.models.functions import ExtractMonth, TruncMonth
-from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from django.db.models.functions import TruncMonth
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from django.utils import timezone
-from django.views.decorators.http import require_POST, require_http_methods
-from django.views.generic import TemplateView
-from io import BytesIO
-
 from .forms import QuejaForm, RespuestaForm, FiltroQuejasForm, ModificarRespuestaForm
 from .models import Queja, Respuesta
+
 
 
 # Create your views here.
@@ -54,6 +46,7 @@ def dash(request):
 # Gestionar Queja
 
 
+@user_passes_test(user_in_group, login_url='')
 def InsertarQueja(request):
     error_message = ''
     if request.method == 'POST':
@@ -70,7 +63,24 @@ def InsertarQueja(request):
         form = QuejaForm()
     return render(request, 'Gestionar Queja/insertarQ.html', {'form': form, 'error_message': error_message})
 
+# def InsertarQueja(request):
+#     error_message = ''
+#     if request.method == 'POST':
+#         form = QuejaForm(request.POST)
+#         if form.is_valid():
+#             queja = form.save(commit=False)
+#             queja.orden = Queja.objects.count() + 1  # Establecer el orden en el siguiente número disponible
+#             queja.save()
+#             # El formulario es válido, guardar los datos en la base de datos
+#             return redirect(reverse('dash'))
+#         else:
+#             error_message = 'Datos inválidos, verifique el formulario'
+#     else:
+#         form = QuejaForm()
+#     return render(request, 'Gestionar Queja/insertarQ.html', {'form': form, 'error_message': error_message})
 
+
+@user_passes_test(user_in_group, login_url='')
 def modificarQ(request, numero):
     # Obtener la queja que se va a editar
     queja = get_object_or_404(Queja, id=numero)
@@ -144,6 +154,7 @@ def buscarQ(request):
     return render(request, 'Gestionar Queja/buscarQueja.html', {'quejas': quejas})
 
 
+@user_passes_test(user_in_group, login_url='')
 def eliminar_ultima_queja(request):
     ultima_queja = Queja.objects.last()  # Obtiene la última queja
     ultima_queja.delete()  # Elimina la última queja
@@ -152,6 +163,7 @@ def eliminar_ultima_queja(request):
 
 # Gestionar Respuesta
 
+@user_passes_test(user_in_group, login_url='')
 def insertar_respuesta(request):
     # Obtener el año actual
     current_year = datetime.now().year
@@ -176,6 +188,7 @@ def insertar_respuesta(request):
     return render(request, 'Gestionar Respuesta/insertarRespuesta.html', context)
 
 
+@user_passes_test(user_in_group, login_url='')
 def modificarR(request, numero):
     respuesta = get_object_or_404(Respuesta, numero_id=numero)
     if request.method == 'POST':
@@ -193,6 +206,7 @@ def modificarR(request, numero):
     return render(request, 'Gestionar Respuesta/modificarRespuesta.html', {'form': form, 'respuesta': respuesta})
 
 
+@user_passes_test(user_in_group, login_url='')
 def eliminarR(request, numero):
     # Buscamos la respuesta por su número
     respuesta = get_object_or_404(Respuesta, numero=numero)
