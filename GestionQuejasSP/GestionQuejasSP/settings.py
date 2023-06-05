@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'Autenticacion',
     'GestionQuejasAPP',
     'crispy_forms',
+    'crud'
 ]
 
 MIDDLEWARE = [
