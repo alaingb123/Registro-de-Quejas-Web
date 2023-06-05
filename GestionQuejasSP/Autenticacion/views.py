@@ -24,13 +24,12 @@ def cerrar_sesion(request):
     logout(request)
     return redirect('autenticacion')
 
-# Create your views here.
-#
-# class VRegistro(View):
-# def get (self,request):
-#      form=UserCreationForm()
-#       return render(request,"Autenticacion/login.html",{"form":form})
-#
-#
-# def post (self,request):
-#    pass
+
+class VRegistro(View):
+    def get (self,request):
+        form=UserCreationForm()
+        return render(request,"Autenticacion/login.html",{"form":form})
+
+
+def post (self,request):
+   pass
