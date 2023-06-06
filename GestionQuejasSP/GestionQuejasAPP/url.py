@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, include
 
 from .views import dash, InsertarQueja, insertar_respuesta, modificarQ, eliminar_ultima_queja, buscarQ, modificarR
-from .views import eliminarR, buscarR, acercaDe, vista_filtrar_quejas_sin_respuestas, ir_a_administracion, informe
+from .views import eliminarR, buscarR, acercaDe, vista_filtrar_quejas_sin_respuestas, ir_a_administracion, informe,grafica_atrasadas
 
 urlpatterns = [
     path('', login_required(dash), name="dash"),
@@ -21,5 +21,6 @@ urlpatterns = [
     # Acerca De
     path('acercaDe/', acercaDe, name="acercaDe"),
     path('informe/', informe, name="informe"),
+    path('quejasAtrasadas/', grafica_atrasadas, name="quejasAtrasadas"),
 
 ]

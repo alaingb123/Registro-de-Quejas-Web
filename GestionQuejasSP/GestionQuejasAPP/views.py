@@ -1,4 +1,3 @@
-
 from datetime import datetime
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -9,6 +8,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from .forms import QuejaForm, RespuestaForm, FiltroQuejasForm, ModificarRespuestaForm
 from .models import Queja, Respuesta
+from django.shortcuts import render
+from django.db.models import Count, Case, When, IntegerField
+from datetime import datetime, timedelta
+import json
+from django.utils.dateformat import DateFormat
+from django.utils import timezone
 
 
 
@@ -331,29 +336,54 @@ def ir_a_administracion(request):
 #     def dispacht (self,r)
 
 def informe(request):
-    # Obtener las quejas agrupadas por mes y entidad afectada
-    quejas = Queja.objects.annotate(mes=TruncMonth('fechaR')) \
-        .values('mes', 'entidadAfectada') \
-        .annotate(cantidad=Count('id')) \
-        .order_by('mes', 'entidadAfectada')
-
     # Obtener la lista de entidades afectadas y meses únicos
-    entidades = quejas.values_list('entidadAfectada', flat=True).distinct()
-    meses = quejas.values_list('mes', flat=True).distinct()
+    entidades = Queja.objects.values_list('entidadAfectada', flat=True).distinct().order_by('entidadAfectada')
+    meses = Queja.objects.annotate(mes=TruncMonth('fechaR')).values_list('mes', flat=True).distinct().order_by('mes')
 
     # Crear una matriz para los valores de la gráfica
     valores = []
     for mes in meses:
         fila = [0] * len(entidades)
         for i, entidad in enumerate(entidades):
-            queja = quejas.filter(mes=mes, entidadAfectada=entidad).first()
-            if queja:
-                fila[i] = queja['cantidad']
+            quejas = Queja.objects.filter(fechaR__month=mes.month, fechaR__year=mes.year, entidadAfectada=entidad)
+            cantidad = quejas.count()
+            fila[i] = cantidad
         valores.append(fila)
-
+    print(entidades)
+    print(meses)
+    print(valores)
     # Pasar los datos a la plantilla
     return render(request, 'Gestionar Queja/resumen.html', {
         'entidades': entidades,
         'meses': meses,
         'valores': valores,
+    })
+
+def grafica_atrasadas(request):
+    # Obtener fecha actual
+    fecha_actual = datetime.now(timezone.utc).date()
+
+    # Obtener la lista de entidades afectadas y meses únicos
+    entidades = Queja.objects.values_list('entidadAfectada', flat=True).distinct().order_by('entidadAfectada')
+    meses = Queja.objects.filter(fechaT__lt=fecha_actual, respuesta__isnull=True).annotate(mes=TruncMonth('fechaR')).values_list('mes', flat=True).distinct().order_by('mes')
+
+    # Crear una matriz para los valores de la gráfica
+    valores = []
+    for mes in meses:
+        fila = [0] * len(entidades)
+        for i, entidad in enumerate(entidades):
+            quejas = Queja.objects.filter(fechaR__month=mes.month, fechaR__year=mes.year, entidadAfectada=entidad, respuesta__isnull=True, fechaT__lt=fecha_actual)
+            cantidad = quejas.count()
+            fila[i] = cantidad
+        valores.append(fila)
+
+    # Obtener la lista de quejas atrasadas
+    quejas_atrasadas = Queja.objects.filter(fechaT__lt=fecha_actual, respuesta__isnull=True)
+    print(quejas_atrasadas)
+    # Pasar los datos a la plantilla
+    return render(request, 'Gestionar Queja/quejasAtrasadas.html', {
+        'entidades': entidades,
+        'meses': meses,
+        'valores': valores,
+        'quejas_atrasadas': quejas_atrasadas,
     })

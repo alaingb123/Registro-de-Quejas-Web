@@ -2,18 +2,17 @@
 
 {% load static %}
 {% block content %}
-{% with meses|length as num_meses %}
+
+ {% with meses|length as num_meses %}
 {% with entidades|length as num_entidades %}
 <div class="col-md-6">
   <div class="container" style="margin-left: 300px">
-    <h1>Gráfica de quejas por entidad afectada y mes</h1>
+    <h1>Gráfica de quejas atrasadas por entidad afectada y mes</h1>
     <div class="text-center" >
       <canvas id="grafico" style="width: 100%;"></canvas>
     </div>
   </div>
 </div>
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -55,7 +54,7 @@
           },
           scaleLabel: {
             display: true,
-            labelString: 'Cantidad de quejas'
+            labelString: 'Cantidad de quejas atrasadas'
           }
         }],
         xAxes: [{
@@ -88,8 +87,40 @@
 {% endwith %}
 {% endwith %}
 
+{% with entidades|length as num_entidades %}
+<table class="table table-striped table-sm table-bordered" id="mi-tabla">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre/Apellidos</th>
+      <th scope="col">Entidad Afectada</th>
+      <th scope="col">Modalidad</th>
+      <th scope="col">Vía</th>
+      <th scope="col">Procedencia</th>
+      <th scope="col">Clasificación</th>
+      <th scope="col">Caso Prensa</th>
+      <th scope="col">Fecha de Registro</th>
+      <th scope="col">Fecha de Termino</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for queja in quejas_atrasadas %}
+      <tr>
+        <td>{{ queja.numero }}</td>
+        <td>{{ queja.nombre_apellidos }}</td>
+        <td>{{ queja.entidadAfectada }}</td>
+        <td>{{ queja.modalidad }}</td>
+        <td>{{ queja.via }}</td>
+        <td>{{ queja.procedencia }}</td>
+        <td>{{ queja.clasificacion }}</td>
+        <td>{{ queja.casoPrensa }}</td>
+        <td>{{ queja.fechaR|date:"d/m/y" }}</td>
+        <td>{{ queja.fechaT|date:"d/m/y" }}</td>
 
 
-
-
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endwith %}
 {% endblock %}
