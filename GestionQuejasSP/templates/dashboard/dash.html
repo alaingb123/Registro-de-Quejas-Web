@@ -4,29 +4,28 @@
 
 {% block content %}
 
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-    <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Registro de Quejas</h1>
-        <div class="d-flex align-items-center">
-            <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary">Compartir</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary">Exportar</button>
-            </div>
-            <div class="d-flex flex-grow-1">
-                <form method="get" action="{% url 'dash' %}" class="d-flex flex-grow-1">
-                    {% csrf_token %}
-                    <div class="form-group mb-0 me-2">
-                        <label for="id_years" class="form-label">Año:</label>
-                        {{ form.years }}
-                    </div>
-                    <button type="submit" class="btn btn-primary">Filtrar</button>
-                </form>
-            </div>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="margin-right: 220px">
+  <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Registro de Quejas</h1>
+    <div class="d-flex align-items-center" style="margin-left: auto;">
+      <form method="get" action="{% url 'dash' %}" class="d-flex">
+        {% csrf_token %}
+        <div class="form-group mb-0 me-2">
+          <label for="id_years" class="form-label" style="color: #0da5e6;font-weight: bold;font-size: 15px">Año:</label>
+          {{ form.years }}
         </div>
+        <div class="btn-group me-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary">Compartir</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary">Exportar</button>
+          <button type="submit" class="btn btn-primary" style="background-color: #0da5e6">Filtrar</button>
+        </div>
+      </form>
     </div>
-    <div class="container-fluid">
+  </div>
+
+    <div class="container-fluid" style="width: 120%">
         <div class="table-responsive table-responsive-xl">
-            <table class="table table-striped table-sm table-bordered" id="mi-tabla">
+            <table class="table table-striped table-sm table-bordered" id="mi-tabla" style="background-color: rgba(13,165,230,0.09)">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -117,43 +116,7 @@
     </div>
 </main>
 
-<style>
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
 
-    .dropbtn {
-        color: white;
-        background-color: #007bff;
-        padding: 4px 8px;
-        font-size: 14px;
-        border: none;
-        cursor: pointer;
-        border-radius: .25rem;
-    }
-
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        z-index: 1;
-        background-color: #f9f9f9;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        padding: 12px 16px;
-    }
-
-    .dropdown-content a {
-        color: black;
-        padding: 6px 0;
-        text-decoration: none;
-        display: block;
-    }
-
-    .dropdown:hover .dropdown-content {
-        display: block;
-    }
-</style>
 
 <script>
     function toggleSubmenu(quejaPk) {
